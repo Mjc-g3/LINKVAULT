@@ -30,7 +30,7 @@ const gradientPositions = [
   '80% 55%', '69% 34%', '8% 6%', '41% 38%',
   '86% 85%', '82% 18%', '51% 4%',
 ]
-const gradientKeys = [
+const gradientKeys: Array<`--${string}`> = [
   '--gradient-one', '--gradient-two', '--gradient-three',
   '--gradient-four', '--gradient-five', '--gradient-six',
   '--gradient-seven',
