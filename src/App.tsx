@@ -13,6 +13,7 @@ import './App.css'
 import ShinyText from './ShinyText'
 import SpotlightCard from './SpotlightCard'
 import GradientWaves from './GradientWaves'
+import { supabase } from './supabase'
 
 import { icons, Folder } from 'lucide-react'
 
@@ -58,56 +59,6 @@ type Category = {
   parent: string | null
 }
 
-const starterWebsites: Website[] = [
-  {
-  id: 1,
-  name: 'GitHub',
-  url: 'https://github.com',
-  description: 'Code hosting and repositories',
-  category: 'Development',
-  tags: ['code', 'git'],
-  favorite: true,
-  order: 0,
-},
-  {
-    id: 2,
-    name: 'RealOEM',
-    url: 'https://www.realoem.com',
-    description: 'BMW parts diagrams and part numbers',
-    category: 'Automotive',
-    tags: ['bmw', 'parts'],
-    favorite: false,
-    order: 1,
-  },
-  {
-    id: 3,
-    name: 'Vite',
-    url: 'https://vite.dev',
-    description: 'Frontend development tooling',
-    category: 'Development',
-    tags: ['web', 'react'],
-    favorite: false,
-    order: 2,
-  },
-]
-
-const starterCategories: Category[] = [
-  {
-    name: 'Automotive',
-    icon: 'Car',
-    parent: null,
-  },
-  {
-    name: 'Development',
-    icon: 'Code2',
-    parent: null,
-  },
-  {
-    name: 'Tools',
-    icon: 'Wrench',
-    parent: null,
-  },
-]
 
 type SortableWebsiteCardProps = {
   site: Website
@@ -411,118 +362,114 @@ function App() {
 )
 
 
-  const [websites, setWebsites] = useState<Website[]>(() => {
-    const savedWebsites = localStorage.getItem('powerful-websites')
+  const [websites, setWebsites] = useState<Website[]>([])
 
-    if (savedWebsites) {
+  const [categories, setCategories] = useState<Category[]>([])
+  const [libraryLoaded, setLibraryLoaded] = useState(false)
+
+  const categoryRows = (items: Category[]) =>
+    items.map((item, index) => ({
+      name: item.name,
+      icon: item.icon,
+      parent: item.parent,
+      order: index,
+    }))
+
+  const replaceWebsites = async (items: Website[]) => {
+    const { error: deleteError } = await supabase
+      .from('websites')
+      .delete()
+      .gte('id', 0)
+
+    if (deleteError) throw deleteError
+
+    if (items.length > 0) {
+      const { error: insertError } = await supabase
+        .from('websites')
+        .insert(items)
+
+      if (insertError) throw insertError
+    }
+  }
+
+  const replaceCategories = async (items: Category[]) => {
+    const { error: deleteError } = await supabase
+      .from('categories')
+      .delete()
+      .neq('name', '')
+
+    if (deleteError) throw deleteError
+
+    if (items.length > 0) {
+      const { error: insertError } = await supabase
+        .from('categories')
+        .insert(categoryRows(items))
+
+      if (insertError) throw insertError
+    }
+  }
+
+  const replaceLibrary = async (
+    nextWebsites: Website[],
+    nextCategories: Category[],
+  ) => {
+    await replaceWebsites(nextWebsites)
+    await replaceCategories(nextCategories)
+  }
+
+  useEffect(() => {
+    let cancelled = false
+
+    const loadLibrary = async () => {
       try {
-        const parsedWebsites = JSON.parse(savedWebsites) as Website[]
+        const [websiteResult, categoryResult] = await Promise.all([
+          supabase.from('websites').select('*').order('order'),
+          supabase.from('categories').select('*').order('order'),
+        ])
 
-        return parsedWebsites.map((site, index) => ({
-        ...site,
-         tags: site.tags ?? [],
-         order: site.order ?? index,
-        }))
-      } catch {
-        return starterWebsites
+        if (websiteResult.error) throw websiteResult.error
+        if (categoryResult.error) throw categoryResult.error
+        if (cancelled) return
+
+        const loadedWebsites = (websiteResult.data ?? []).map(
+          (site, index) => ({
+            id: Number(site.id),
+            name: String(site.name ?? ''),
+            url: String(site.url ?? ''),
+            description: String(site.description ?? ''),
+            category: String(site.category ?? 'Uncategorized'),
+            tags: Array.isArray(site.tags) ? site.tags.map(String) : [],
+            favorite: Boolean(site.favorite),
+            order: Number(site.order ?? index),
+          }),
+        )
+
+        const loadedCategories = (categoryResult.data ?? []).map(
+          (item) => ({
+            name: String(item.name ?? ''),
+            icon: String(item.icon ?? 'Folder'),
+            parent: typeof item.parent === 'string' ? item.parent : null,
+          }),
+        )
+
+        setWebsites(loadedWebsites)
+        setCategories(loadedCategories)
+      } catch (error) {
+        console.error('Could not load Supabase library:', error)
+        alert(
+          'Could not load your online library from Supabase. Check the browser console for details.',
+        )
+      } finally {
+        if (!cancelled) setLibraryLoaded(true)
       }
     }
 
-    return starterWebsites
-  })
-  
+    void loadLibrary()
 
-const [categories, setCategories] =
-  useState<Category[]>(() => {
-    const savedCategories =
-      localStorage.getItem(
-        'powerful-categories',
-      )
-
-    if (savedCategories) {
-      try {
-        const parsed =
-          JSON.parse(savedCategories)
-
-        if (Array.isArray(parsed)) {
-          return parsed.map(
-            (
-              item:
-                | string
-                | Category,
-            ) => {
-              if (
-                typeof item === 'string'
-              ) {
-                const defaultIcons:
-                  Record<
-                    string,
-                    string
-                  > = {
-                  Automotive: 'Car',
-                  Development: 'Code2',
-                  Tools: 'Wrench',
-                  Modding: 'Gamepad2',
-                  Downloads: 'Download',
-                  Design: 'Palette',
-                  Web: 'Globe',
-                }
-
-                return {
-                   name: item,
-                    icon:
-                    defaultIcons[item] ??
-                     'Folder',
-                     parent: null,
-                } 
-              }
-
-              return {
-                name: item.name,
-                icon:
-                  item.icon ?? 'Folder',
-                parent: item.parent ?? null,
-              }
-            },
-          )
-        }
-      } catch {
-        return starterCategories
-      }
+    return () => {
+      cancelled = true
     }
-
-    const websiteCategories =
-      websites.map(
-        (site) => site.category,
-      )
-
-    const categoryNames =
-      new Set(
-        starterCategories.map(
-          (item) => item.name,
-        ),
-      )
-
-    const result = [
-      ...starterCategories,
-    ]
-
-    for (
-      const name of websiteCategories
-    ) {
-      if (!categoryNames.has(name)) {
-        result.push({
-          name,
-          icon: 'Folder',
-          parent: null,
-        })
-
-        categoryNames.add(name)
-      }
-    }
-
-    return result
-  })
+  }, [])
 
 const importBackupRef =
   useRef<HTMLInputElement | null>(null)
@@ -568,17 +515,6 @@ const [
   const [description, setDescription] = useState('')
   const [category, setCategory] = useState('Tools')
   const [tags, setTags] = useState('')
-
-  useEffect(() => {
-    localStorage.setItem('powerful-websites', JSON.stringify(websites))
-  }, [websites])
-
-  useEffect(() => {
-  localStorage.setItem(
-    'powerful-categories',
-    JSON.stringify(categories),
-  )
-}, [categories])
 
   useEffect(() => {
   const handleOutsideClick = (event: MouseEvent) => {
@@ -739,7 +675,7 @@ const renameCategory = (
   setShowCategoryModal(true)
 }
 
-const saveCategory = () => {
+const saveCategory = async () => {
   const cleanName = categoryNameInput.trim()
 
   if (!cleanName) {
@@ -749,8 +685,7 @@ const saveCategory = () => {
 
   const alreadyExists = categories.some(
     (item) =>
-      item.name.toLowerCase() ===
-        cleanName.toLowerCase() &&
+      item.name.toLowerCase() === cleanName.toLowerCase() &&
       item.name !== editingCategoryName,
   )
 
@@ -759,70 +694,71 @@ const saveCategory = () => {
     return
   }
 
+  let nextCategories: Category[]
+  let nextWebsites = websites
+
   if (editingCategoryName) {
-    setCategories((current) =>
-      current.map((item) => {
-        if (item.name === editingCategoryName) {
-          return {
-            name: cleanName,
-            icon: categoryIconInput,
-            parent: categoryParentInput,
-          }
+    nextCategories = categories.map((item) => {
+      if (item.name === editingCategoryName) {
+        return {
+          name: cleanName,
+          icon: categoryIconInput,
+          parent: categoryParentInput,
         }
+      }
 
-        // If this category has children,
-        // update their parent when it is renamed.
-        if (item.parent === editingCategoryName) {
-          return {
-            ...item,
-            parent: cleanName,
-          }
-        }
+      if (item.parent === editingCategoryName) {
+        return { ...item, parent: cleanName }
+      }
 
-        return item
-      }),
+      return item
+    })
+
+    nextWebsites = websites.map((site) =>
+      site.category === editingCategoryName
+        ? { ...site, category: cleanName }
+        : site,
     )
-
-    setWebsites((current) =>
-      current.map((site) =>
-        site.category === editingCategoryName
-          ? {
-              ...site,
-              category: cleanName,
-            }
-          : site,
-      ),
-    )
-
-    if (selectedCategory === editingCategoryName) {
-      setSelectedCategory(cleanName)
-    }
   } else {
-    setCategories((current) => [
-      ...current,
+    nextCategories = [
+      ...categories,
       {
         name: cleanName,
         icon: categoryIconInput,
         parent: categoryParentInput,
       },
-    ])
+    ]
   }
 
-  setShowCategoryModal(false)
-  setEditingCategoryName(null)
-  setCategoryNameInput('')
-  setCategoryIconInput('Folder')
-  setCategoryParentInput(null)
+  try {
+    if (editingCategoryName) {
+      await replaceLibrary(nextWebsites, nextCategories)
+    } else {
+      await replaceCategories(nextCategories)
+    }
+
+    setCategories(nextCategories)
+    setWebsites(nextWebsites)
+
+    if (selectedCategory === editingCategoryName) {
+      setSelectedCategory(cleanName)
+    }
+
+    setShowCategoryModal(false)
+    setEditingCategoryName(null)
+    setCategoryNameInput('')
+    setCategoryIconInput('Folder')
+    setCategoryParentInput(null)
+  } catch (error) {
+    console.error(error)
+    alert('The category could not be saved to Supabase.')
+  }
 }
 
-const deleteCategory = (
-  categoryName: string,
-) => {
-  const websitesInCategory =
-    websites.filter(
-      (site) =>
-        site.category === categoryName,
-    )
+const deleteCategory = async (categoryName: string) => {
+  const websitesInCategory = websites.filter(
+    (site) => site.category === categoryName,
+  )
 
   if (websitesInCategory.length > 0) {
     const shouldDelete = window.confirm(
@@ -830,88 +766,54 @@ const deleteCategory = (
     )
 
     if (!shouldDelete) return
-
-    setWebsites((current) =>
-      current.map((site) =>
-        site.category === categoryName
-          ? {
-              ...site,
-              category: 'Uncategorized',
-            }
-          : site,
-      ),
-    )
-
-    setCategories((current) => {
-      const remaining = current
-        .filter(
-          (item) =>
-            item.name !== categoryName,
-        )
-        .map((item) =>
-          item.parent === categoryName
-            ? {
-                ...item,
-                parent: null,
-              }
-            : item,
-        )
-
-      if (
-        !remaining.some(
-          (item) =>
-            item.name === 'Uncategorized',
-        )
-      ) {
-        remaining.push({
-          name: 'Uncategorized',
-          icon: 'Folder',
-          parent: null,
-        })
-      }
-
-      return remaining
-    })
-
-    if (
-      selectedCategory === categoryName
-    ) {
-      setSelectedCategory(
-        'Uncategorized',
-      )
-    }
   } else {
     const shouldDelete = window.confirm(
       `Delete the "${categoryName}" category?`,
     )
 
     if (!shouldDelete) return
+  }
 
-    setCategories((current) =>
-      current
-        .filter(
-          (item) =>
-            item.name !== categoryName,
-        )
-        .map((item) =>
-          item.parent === categoryName
-            ? {
-                ...item,
-                parent: null,
-              }
-            : item,
-        ),
+  let nextWebsites = websites
+  let nextCategories = categories
+    .filter((item) => item.name !== categoryName)
+    .map((item) =>
+      item.parent === categoryName ? { ...item, parent: null } : item,
     )
 
-    if (
-      selectedCategory === categoryName
-    ) {
-      setSelectedCategory('All')
+  if (websitesInCategory.length > 0) {
+    nextWebsites = websites.map((site) =>
+      site.category === categoryName
+        ? { ...site, category: 'Uncategorized' }
+        : site,
+    )
+
+    if (!nextCategories.some((item) => item.name === 'Uncategorized')) {
+      nextCategories = [
+        ...nextCategories,
+        { name: 'Uncategorized', icon: 'Folder', parent: null },
+      ]
     }
   }
 
-  setOpenCategoryMenu(null)
+  try {
+    await replaceLibrary(nextWebsites, nextCategories)
+    setWebsites(nextWebsites)
+    setCategories(nextCategories)
+
+    if (selectedCategory === categoryName) {
+      setSelectedCategory(
+        websitesInCategory.length > 0 ? 'Uncategorized' : 'All',
+      )
+    }
+
+    setOpenCategoryMenu(null)
+  } catch (error) {
+    console.error(error)
+    alert('The category could not be deleted from Supabase.')
+  }
 }
+
 const getBackupData = (): BackupData<
   Website,
   Category
@@ -1010,11 +912,13 @@ const handleImportBackup = async (
 
     if (!shouldRestore) return
 
+    await replaceLibrary(restoredWebsites, restoredCategories)
+
     setWebsites(restoredWebsites)
     setCategories(restoredCategories)
     setSelectedCategory('All')
 
-    alert('Backup restored successfully.')
+    alert('Backup imported to Supabase successfully.')
   } catch (error) {
     console.error(error)
 
@@ -1070,7 +974,7 @@ const handleImportBackup = async (
     return `https://${trimmed}`
   }
 
-  const saveWebsite = () => {
+  const saveWebsite = async () => {
     if (!name.trim()) {
       alert('Please enter a website name.')
       return
@@ -1100,132 +1004,126 @@ const handleImportBackup = async (
       .map((tag) => tag.trim())
       .filter(Boolean)
 
-      const cleanCategory = category.trim()
+    const cleanCategory = category.trim()
+    const categoryExists = categories.some(
+      (item) => item.name.toLowerCase() === cleanCategory.toLowerCase(),
+    )
 
-setCategories((current) => {
-  const exists = current.some(
-  (item) =>
-    item.name.toLowerCase() ===
-    cleanCategory.toLowerCase(),
-)
+    const nextCategories = categoryExists
+      ? categories
+      : [
+          ...categories,
+          { name: cleanCategory, icon: 'Folder', parent: null },
+        ]
 
-  if (exists) return current
-
-  return [
-  ...current,
-  {
-    name: cleanCategory,
-    icon: 'Folder',
-    parent: null,
-  },
-]
-})
+    let nextWebsites: Website[]
 
     if (editingId !== null) {
-      setWebsites((current) =>
-        current.map((site) =>
-          site.id === editingId
-            ? {
-                ...site,
-                name: name.trim(),
-                url: normalizedUrl,
-                description: description.trim(),
-                category: cleanCategory,
-                tags: parsedTags,
-              }
-            : site,
-        ),
+      nextWebsites = websites.map((site) =>
+        site.id === editingId
+          ? {
+              ...site,
+              name: name.trim(),
+              url: normalizedUrl,
+              description: description.trim(),
+              category: cleanCategory,
+              tags: parsedTags,
+            }
+          : site,
       )
     } else {
       const newWebsite: Website = {
-  id: Date.now(),
-  name: name.trim(),
-  url: normalizedUrl,
-  description: description.trim(),
-  category: cleanCategory,
-  tags: parsedTags,
-  favorite: false,
-  order: websites.length,
-}
+        id: Date.now(),
+        name: name.trim(),
+        url: normalizedUrl,
+        description: description.trim(),
+        category: cleanCategory,
+        tags: parsedTags,
+        favorite: false,
+        order: websites.length,
+      }
 
-      setWebsites((current) => [...current, newWebsite])
+      nextWebsites = [...websites, newWebsite]
     }
 
-    closeModal()
+    try {
+      if (!categoryExists) {
+        await replaceCategories(nextCategories)
+      }
+      await replaceWebsites(nextWebsites)
+
+      setCategories(nextCategories)
+      setWebsites(nextWebsites)
+      closeModal()
+    } catch (error) {
+      console.error(error)
+      alert('The website could not be saved to Supabase.')
+    }
   }
 
-const handleCategoryDragEnd = (event: DragEndEvent) => {
+const handleCategoryDragEnd = async (event: DragEndEvent) => {
   const { active, over } = event
 
   if (!over || active.id === over.id) return
 
-  const activeId = String(active.id)
-  const overId = String(over.id)
+  const oldCategory = String(active.id).replace('category-', '')
+  const newCategory = String(over.id).replace('category-', '')
+  const oldIndex = categories.findIndex((item) => item.name === oldCategory)
+  const newIndex = categories.findIndex((item) => item.name === newCategory)
 
-  const oldCategory = activeId.replace('category-', '')
-  const newCategory = overId.replace('category-', '')
+  if (oldIndex === -1 || newIndex === -1) return
 
-  setCategories((current) => {
-    const oldIndex =
-  current.findIndex(
-    (item) =>
-      item.name === oldCategory,
-  )
+  const nextCategories = arrayMove(categories, oldIndex, newIndex)
 
-const newIndex =
-  current.findIndex(
-    (item) =>
-      item.name === newCategory,
-  )
-    if (oldIndex === -1 || newIndex === -1) {
-      return current
-    }
-
-    return arrayMove(current, oldIndex, newIndex)
-  })
+  try {
+    await replaceCategories(nextCategories)
+    setCategories(nextCategories)
+  } catch (error) {
+    console.error(error)
+    alert('The category order could not be saved to Supabase.')
+  }
 }
 
-const handleDragEnd = (event: DragEndEvent) => {
+const handleDragEnd = async (event: DragEndEvent) => {
   const { active, over } = event
 
   if (!over || active.id === over.id) return
 
-  setWebsites((current) => {
-    const sorted = [...current].sort(
-      (a, b) => a.order - b.order,
-    )
+  const sorted = [...websites].sort((a, b) => a.order - b.order)
+  const oldIndex = sorted.findIndex((site) => site.id === active.id)
+  const newIndex = sorted.findIndex((site) => site.id === over.id)
 
-    const oldIndex = sorted.findIndex(
-      (site) => site.id === active.id,
-    )
+  if (oldIndex === -1 || newIndex === -1) return
 
-    const newIndex = sorted.findIndex(
-      (site) => site.id === over.id,
-    )
-
-    const moved = arrayMove(sorted, oldIndex, newIndex)
-
-    return moved.map((site, index) => ({
-      ...site,
-      order: index,
-    }))
-  })
-}
-  
-  const toggleFavorite = (id: number) => {
-    setWebsites((current) =>
-      current.map((site) =>
-        site.id === id
-          ? { ...site, favorite: !site.favorite }
-          : site,
-      ),
-    )
-  }
-
-const deleteWebsite = (id: number) => {
-  const site = websites.find(
-    (website) => website.id === id,
+  const nextWebsites = arrayMove(sorted, oldIndex, newIndex).map(
+    (site, index) => ({ ...site, order: index }),
   )
+
+  try {
+    await replaceWebsites(nextWebsites)
+    setWebsites(nextWebsites)
+  } catch (error) {
+    console.error(error)
+    alert('The website order could not be saved to Supabase.')
+  }
+}
+
+const toggleFavorite = async (id: number) => {
+  const nextWebsites = websites.map((site) =>
+    site.id === id ? { ...site, favorite: !site.favorite } : site,
+  )
+
+  try {
+    await replaceWebsites(nextWebsites)
+    setWebsites(nextWebsites)
+  } catch (error) {
+    console.error(error)
+    alert('The favorite could not be saved to Supabase.')
+  }
+}
+
+const deleteWebsite = async (id: number) => {
+  const site = websites.find((website) => website.id === id)
 
   if (!site) return
 
@@ -1235,11 +1133,18 @@ const deleteWebsite = (id: number) => {
 
   if (!shouldDelete) return
 
-  setWebsites((current) =>
-    current.filter(
-      (website) => website.id !== id,
-    ),
-  )
+  const nextWebsites = websites
+    .filter((website) => website.id !== id)
+    .sort((a, b) => a.order - b.order)
+    .map((website, index) => ({ ...website, order: index }))
+
+  try {
+    await replaceWebsites(nextWebsites)
+    setWebsites(nextWebsites)
+  } catch (error) {
+    console.error(error)
+    alert('The website could not be deleted from Supabase.')
+  }
 }
 
 const rootCategories = categories.filter(
@@ -1255,6 +1160,10 @@ const getChildCategories = (
   )
 
   
+if (!libraryLoaded) {
+  return <div className="app"><div className="app-background" /></div>
+}
+
 return (
   <div className="app">
     <div className="app-background">
