@@ -21,7 +21,9 @@ body {
 
 .sidebar {
   width: 230px;
-  min-height: 100vh;
+  height: 100dvh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   border-right: 1px solid #20232a;
   background: rgba(16, 18, 23, 0.52);
   padding: 24px 14px;
@@ -99,6 +101,9 @@ body {
 .main {
   flex: 1;
   min-width: 0;
+  height: 100dvh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 
   background: rgba(12, 14, 18, 0.30);
 }
@@ -497,12 +502,14 @@ body {
 
 @media (max-width: 650px) {
   .app {
-    display: block;
+    flex-direction: column;
   }
 
   .sidebar {
     width: 100%;
+    height: auto;
     min-height: auto;
+    overflow: visible;
     border-right: none;
     position: sticky;
     top: 0;
@@ -628,7 +635,7 @@ body {
 
   .topbar {
     position: sticky;
-    top: 69px;
+    top: 0;
     flex-wrap: wrap;
     padding: 14px;
     min-height: auto;
@@ -651,6 +658,11 @@ body {
 
   .content {
     padding: 20px 14px;
+  }
+
+  .main {
+    height: auto;
+    min-height: 0;
   }
 
   .website-grid {
@@ -1199,8 +1211,9 @@ overflow: hidden;
 }
 
 .app {
-  min-height: 100vh;
+  height: 100dvh;
   display: flex;
+  overflow: hidden;
 
   position: relative;
   isolation: isolate;
