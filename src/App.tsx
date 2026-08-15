@@ -475,6 +475,7 @@ const importBackupRef =
   useRef<HTMLInputElement | null>(null)
 
   const [search, setSearch] = useState('')
+  const [mobileNavigationOpen, setMobileNavigationOpen] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState('All')
   const [showModal, setShowModal] = useState(false)
   const [editingId, setEditingId] = useState<number | null>(null)
@@ -1159,6 +1160,11 @@ const getChildCategories = (
       item.parent === parentName,
   )
 
+const selectCategory = (categoryName: string) => {
+  setSelectedCategory(categoryName)
+  setMobileNavigationOpen(false)
+}
+
   
 if (!libraryLoaded) {
   return <div className="app"><div className="app-background" /></div>
@@ -1191,7 +1197,8 @@ return (
   />
 </div>
 
-    <aside className="sidebar">
+    <aside className={mobileNavigationOpen ? 'sidebar mobile-open' : 'sidebar'}>
+      <div className="sidebar-header">
         <div className="logo">
   <ShinyText
     text="Useful Websites"
@@ -1199,10 +1206,24 @@ return (
   />
 </div>
 
+        <button
+          className="mobile-menu-button"
+          type="button"
+          aria-expanded={mobileNavigationOpen}
+          aria-controls="sidebar-navigation"
+          onClick={() => setMobileNavigationOpen((isOpen) => !isOpen)}
+        >
+          <span className="mobile-menu-icon" aria-hidden="true" />
+          <span>{mobileNavigationOpen ? 'Close' : 'Browse'}</span>
+        </button>
+      </div>
+
+      <div className="sidebar-content" id="sidebar-navigation">
+
         <nav className="nav">
           <button
             className={selectedCategory === 'All' ? 'active' : ''}
-            onClick={() => setSelectedCategory('All')}
+            onClick={() => selectCategory('All')}
           >
             Library
           </button>
@@ -1211,7 +1232,7 @@ return (
             className={
               selectedCategory === 'Favorites' ? 'active' : ''
             }
-            onClick={() => setSelectedCategory('Favorites')}
+            onClick={() => selectCategory('Favorites')}
           >
             Favorites
           </button>
@@ -1255,7 +1276,7 @@ return (
       <SortableCategory
         item={item}
         selectedCategory={selectedCategory}
-        setSelectedCategory={setSelectedCategory}
+        setSelectedCategory={selectCategory}
         openCategoryMenu={openCategoryMenu}
         setOpenCategoryMenu={setOpenCategoryMenu}
         renameCategory={renameCategory}
@@ -1273,7 +1294,7 @@ return (
                 selectedCategory
               }
               setSelectedCategory={
-                setSelectedCategory
+                selectCategory
               }
               openCategoryMenu={
                 openCategoryMenu
@@ -1336,7 +1357,8 @@ return (
   />
 </div>
 
-      </aside>
+      </div>
+    </aside>
 
       <main className="main">
         <header className="topbar">
