@@ -1775,12 +1775,17 @@ return (
             {editingId === null && (
               <label className="auto-sort-field">
                 <span className="auto-sort-toggle">
-                  <input
-                    type="checkbox"
-                    checked={autoSort}
-                    onChange={(event) => setAutoSort(event.target.checked)}
-                  />
-                  Automatically sort this website
+                  <span>Automatically sort this website</span>
+
+                  <span className="toggle-switch">
+                    <input
+                      type="checkbox"
+                      checked={autoSort}
+                      onChange={(event) => setAutoSort(event.target.checked)}
+                      aria-label="Automatically sort this website"
+                    />
+                    <span className="toggle-slider" aria-hidden="true" />
+                  </span>
                 </span>
 
                 {autoSort && (
