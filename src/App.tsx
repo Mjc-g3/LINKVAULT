@@ -76,6 +76,117 @@ const getWebsiteHostname = (value: string) => {
   }
 }
 
+type ClassificationRule = {
+  keywords: string[]
+  categoryHints: string[]
+  tags: string[]
+  defaultCategory: string
+}
+
+const classificationRules: ClassificationRule[] = [
+  {
+    keywords: ['plex', 'netflix', 'hulu', 'disneyplus', 'primevideo', 'streaming', 'movie', 'movies', 'television', 'watch', 'video'],
+    categoryHints: ['streaming', 'movies', 'film', 'television', 'video', 'media', 'entertainment'],
+    tags: ['streaming', 'movies', 'television', 'media'],
+    defaultCategory: 'Entertainment',
+  },
+  {
+    keywords: ['spotify', 'soundcloud', 'bandcamp', 'music', 'audio', 'radio', 'podcast'],
+    categoryHints: ['music', 'audio', 'entertainment', 'media'],
+    tags: ['music', 'audio', 'streaming'],
+    defaultCategory: 'Music',
+  },
+  {
+    keywords: ['github', 'gitlab', 'stackoverflow', 'npmjs', 'developer', 'programming', 'coding', 'repository', 'api'],
+    categoryHints: ['development', 'developer', 'programming', 'coding', 'tools'],
+    tags: ['development', 'programming', 'code', 'tools'],
+    defaultCategory: 'Development',
+  },
+  {
+    keywords: ['figma', 'canva', 'behance', 'dribbble', 'photoshop', 'design', 'font', 'fonts', 'icon', 'icons', 'color'],
+    categoryHints: ['design', 'creative', 'graphics', 'resources'],
+    tags: ['design', 'creative', 'graphics', 'resources'],
+    defaultCategory: 'Design',
+  },
+  {
+    keywords: ['ifixit', 'repair', 'teardown', 'manual', 'service-manual', 'parts-catalog'],
+    categoryHints: ['repair', 'guides', 'reference', 'tools'],
+    tags: ['repair', 'guide', 'parts', 'reference'],
+    defaultCategory: 'Repair',
+  },
+  {
+    keywords: ['bmw', 'audi', 'mercedes', 'volkswagen', 'toyota', 'nissan', 'automotive', 'vehicle', 'car', 'cars', 'parts'],
+    categoryHints: ['automotive', 'cars', 'vehicles', 'parts'],
+    tags: ['automotive', 'cars', 'parts'],
+    defaultCategory: 'Automotive',
+  },
+  {
+    keywords: ['steam', 'playstation', 'xbox', 'nintendo', 'gaming', 'game', 'games', 'modding'],
+    categoryHints: ['gaming', 'games', 'entertainment'],
+    tags: ['gaming', 'games'],
+    defaultCategory: 'Gaming',
+  },
+  {
+    keywords: ['amazon', 'ebay', 'etsy', 'aliexpress', 'shopping', 'shop', 'store', 'marketplace', 'deals'],
+    categoryHints: ['shopping', 'stores', 'marketplace'],
+    tags: ['shopping', 'store', 'marketplace'],
+    defaultCategory: 'Shopping',
+  },
+  {
+    keywords: ['wikipedia', 'archive', 'dictionary', 'reference', 'encyclopedia', 'documentation', 'docs'],
+    categoryHints: ['reference', 'information', 'education', 'resources'],
+    tags: ['reference', 'information'],
+    defaultCategory: 'Reference',
+  },
+  {
+    keywords: ['book', 'books', 'ebook', 'ebooks', 'pdf', 'library', 'reading'],
+    categoryHints: ['books', 'reading', 'education', 'downloads'],
+    tags: ['books', 'reading', 'pdf'],
+    defaultCategory: 'Books',
+  },
+  {
+    keywords: ['chatgpt', 'openai', 'claude', 'gemini', 'artificial-intelligence', 'machine-learning'],
+    categoryHints: ['ai', 'artificial intelligence', 'tools'],
+    tags: ['ai', 'tools', 'productivity'],
+    defaultCategory: 'AI Tools',
+  },
+  {
+    keywords: ['google-drive', 'dropbox', 'onedrive', 'cloud', 'storage', 'file-sharing', 'upload'],
+    categoryHints: ['cloud', 'storage', 'files', 'tools'],
+    tags: ['cloud', 'storage', 'files'],
+    defaultCategory: 'Cloud Storage',
+  },
+  {
+    keywords: ['torrent', 'usenet', 'nzb', 'download', 'downloads', 'magnet'],
+    categoryHints: ['downloads', 'torrent', 'usenet', 'files'],
+    tags: ['downloads', 'files'],
+    defaultCategory: 'Downloads',
+  },
+  {
+    keywords: ['reddit', 'facebook', 'instagram', 'tiktok', 'twitter', 'social', 'community', 'forum'],
+    categoryHints: ['social', 'community', 'forums'],
+    tags: ['social', 'community'],
+    defaultCategory: 'Social',
+  },
+  {
+    keywords: ['news', 'newspaper', 'magazine', 'journal', 'weather'],
+    categoryHints: ['news', 'information'],
+    tags: ['news', 'information'],
+    defaultCategory: 'News',
+  },
+]
+
+const normalizeClassificationText = (value: string) =>
+  value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim()
+
+const textContainsKeyword = (text: string, keyword: string) => {
+  const normalizedKeyword = normalizeClassificationText(keyword)
+  return ` ${text} `.includes(` ${normalizedKeyword} `)
+}
+
 
 type SortableWebsiteCardProps = {
   site: Website
@@ -1005,6 +1116,7 @@ const handleImportBackup = async (
         category: 'Uncategorized',
         tags: [] as string[],
         matchedSites: 0,
+        method: 'fallback' as const,
       }
     }
 
@@ -1014,10 +1126,15 @@ const handleImportBackup = async (
         getWebsiteHostname(site.url) === hostname,
     )
 
-    if (domainMatches.length === 0) {
+    const classifiedDomainMatches = domainMatches.filter(
+      (site) =>
+        site.category !== 'Uncategorized' ||
+        site.tags.length > 0,
+    )
+
+    if (classifiedDomainMatches.length === 0) {
       return {
-        category: 'Uncategorized',
-        tags: [] as string[],
+        ...getContentBasedOrganization(hostname),
         matchedSites: 0,
       }
     }
@@ -1025,7 +1142,7 @@ const handleImportBackup = async (
     const categoryCounts = new Map<string, number>()
     const tagCounts = new Map<string, number>()
 
-    domainMatches.forEach((site) => {
+    classifiedDomainMatches.forEach((site) => {
       categoryCounts.set(
         site.category,
         (categoryCounts.get(site.category) ?? 0) + 1,
@@ -1047,7 +1164,99 @@ const handleImportBackup = async (
     return {
       category: inferredCategory,
       tags: inferredTags,
-      matchedSites: domainMatches.length,
+      matchedSites: classifiedDomainMatches.length,
+      method: 'domain' as const,
+    }
+  }
+
+  const getContentBasedOrganization = (hostname: string) => {
+    const domainText = normalizeClassificationText(hostname)
+    const nameText = normalizeClassificationText(name)
+    const urlText = normalizeClassificationText(url)
+    const descriptionText = normalizeClassificationText(description)
+
+    const scoredRules = classificationRules
+      .map((rule) => ({
+        rule,
+        score: rule.keywords.reduce((score, keyword) => {
+          if (textContainsKeyword(domainText, keyword)) score += 5
+          if (textContainsKeyword(nameText, keyword)) score += 4
+          if (textContainsKeyword(urlText, keyword)) score += 2
+          if (textContainsKeyword(descriptionText, keyword)) score += 2
+          return score
+        }, 0),
+      }))
+      .filter((item) => item.score > 0)
+      .sort((a, b) => b.score - a.score)
+
+    if (scoredRules.length === 0) {
+      return {
+        category: 'Uncategorized',
+        tags: [] as string[],
+        method: 'fallback' as const,
+      }
+    }
+
+    const strongestRules = scoredRules
+      .filter((item) => item.score >= scoredRules[0].score * 0.6)
+      .slice(0, 2)
+
+    const generatedTags = Array.from(
+      new Set(strongestRules.flatMap((item) => item.rule.tags)),
+    ).slice(0, 6)
+
+    const categoryScores = categories
+      .filter((item) => item.name !== 'Uncategorized')
+      .map((item) => {
+        const parentName = item.parent ?? ''
+        const categoryText = normalizeClassificationText(
+          `${item.name} ${parentName}`,
+        )
+
+        let score = 0
+
+        strongestRules.forEach(({ rule, score: ruleScore }) => {
+          rule.categoryHints.forEach((hint) => {
+            const normalizedHint = normalizeClassificationText(hint)
+            if (
+              categoryText.includes(normalizedHint) ||
+              normalizedHint.includes(categoryText)
+            ) {
+              score += 8 + ruleScore
+            }
+          })
+
+          rule.tags.forEach((tag) => {
+            if (categoryText.includes(normalizeClassificationText(tag))) {
+              score += 4
+            }
+          })
+        })
+
+        websites.forEach((site) => {
+          const sharedTags = site.tags.filter((tag) =>
+            generatedTags.some(
+              (generatedTag) =>
+                generatedTag.toLowerCase() === tag.toLowerCase(),
+            ),
+          ).length
+
+          if (site.category === item.name) score += sharedTags * 3
+        })
+
+        return { name: item.name, score }
+      })
+      .sort((a, b) => b.score - a.score)
+
+    const bestCategory = categoryScores[0]
+
+    return {
+      category:
+        bestCategory && bestCategory.score > 0
+          ? bestCategory.name
+          : strongestRules[0].rule.defaultCategory,
+      tags: generatedTags,
+      method: 'content' as const,
     }
   }
 
@@ -1576,9 +1785,11 @@ return (
 
                 {autoSort && (
                   <span className="field-hint auto-sort-result">
-                    {automaticOrganization.matchedSites > 0
-                      ? `Matched ${automaticOrganization.matchedSites} saved site(s) from this domain: ${automaticOrganization.category}${automaticOrganization.tags.length > 0 ? ` · ${automaticOrganization.tags.join(', ')}` : ''}`
-                      : 'New domain: this website will be saved in Uncategorized.'}
+                    {automaticOrganization.method === 'domain'
+                      ? `Learned from ${automaticOrganization.matchedSites} saved site(s): ${automaticOrganization.category}${automaticOrganization.tags.length > 0 ? ` · ${automaticOrganization.tags.join(', ')}` : ''}`
+                      : automaticOrganization.method === 'content'
+                        ? `Detected from the website details: ${automaticOrganization.category}${automaticOrganization.tags.length > 0 ? ` · ${automaticOrganization.tags.join(', ')}` : ''}`
+                        : 'No reliable match: this website will be saved in Uncategorized.'}
                   </span>
                 )}
               </label>
