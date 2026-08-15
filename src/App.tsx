@@ -11,7 +11,7 @@ import {
 import './App.css'
 
 import ShinyText from './ShinyText'
-import SpotlightCard from './SpotlightCard'
+import BorderGlow from './BorderGlow'
 import GradientWaves from './GradientWaves'
 import { supabase } from './supabase'
 
@@ -68,6 +68,7 @@ type SortableWebsiteCardProps = {
   openEditModal: (site: Website) => void
   deleteWebsite: (id: number) => void
   menuRef: RefObject<HTMLDivElement | null>
+  animateGlow: boolean
 }
 
 function SortableWebsiteCard({
@@ -78,6 +79,7 @@ function SortableWebsiteCard({
   openEditModal,
   deleteWebsite,
   menuRef,
+  animateGlow,
 }: SortableWebsiteCardProps) {
 const {
   attributes,
@@ -101,9 +103,9 @@ const {
   style={style}
   className="website-card-wrapper"
 >
-  <SpotlightCard
+  <BorderGlow
     className="website-card"
-    spotlightColor = 'rgba(80, 130, 180, 0.22)'
+    animated={animateGlow}
   >
     <div
       className="website-card-inner"
@@ -219,7 +221,7 @@ const {
 </div>
 
     </div>
-  </SpotlightCard>
+  </BorderGlow>
 </article>
   )
 }
@@ -1420,6 +1422,7 @@ return (
           openEditModal={openEditModal}
           deleteWebsite={deleteWebsite}
           menuRef={menuRef}
+          animateGlow={selectedCategory === 'Favorites'}
         />
       ))}
     </div>

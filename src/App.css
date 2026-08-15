@@ -242,6 +242,11 @@ body {
   flex-direction: column;
 }
 
+.border-glow-card.website-card .border-glow-inner {
+  width: 100%;
+  height: 100%;
+}
+
 .website-card:hover {
   transform: translateY(-2px);
   border-color: #3a3f49;
