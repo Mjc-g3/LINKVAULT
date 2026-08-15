@@ -477,6 +477,7 @@ const importBackupRef =
   const [search, setSearch] = useState('')
   const [mobileNavigationOpen, setMobileNavigationOpen] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState('All')
+  const mainScrollRef = useRef<HTMLElement | null>(null)
   const [showModal, setShowModal] = useState(false)
   const [editingId, setEditingId] = useState<number | null>(null)
   const [openMenuId, setOpenMenuId] = useState<number | null>(null)
@@ -1165,6 +1166,13 @@ const selectCategory = (categoryName: string) => {
   setMobileNavigationOpen(false)
 }
 
+useEffect(() => {
+  mainScrollRef.current?.scrollTo({
+    top: 0,
+    behavior: 'auto',
+  })
+}, [selectedCategory])
+
   
 if (!libraryLoaded) {
   return <div className="app"><div className="app-background" /></div>
@@ -1360,7 +1368,7 @@ return (
       </div>
     </aside>
 
-      <main className="main">
+      <main className="main" ref={mainScrollRef}>
         <header className="topbar">
           <input
             type="text"
