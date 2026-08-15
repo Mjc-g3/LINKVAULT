@@ -59,6 +59,23 @@ type Category = {
   parent: string | null
 }
 
+const getWebsiteHostname = (value: string) => {
+  const trimmed = value.trim()
+  if (!trimmed) return null
+
+  try {
+    const normalized = /^https?:\/\//i.test(trimmed)
+      ? trimmed
+      : `https://${trimmed}`
+
+    return new URL(normalized).hostname
+      .toLowerCase()
+      .replace(/^www\./, '')
+  } catch {
+    return null
+  }
+}
+
 
 type SortableWebsiteCardProps = {
   site: Website
@@ -519,6 +536,7 @@ const [
   const [description, setDescription] = useState('')
   const [category, setCategory] = useState('Tools')
   const [tags, setTags] = useState('')
+  const [autoSort, setAutoSort] = useState(true)
 
   useEffect(() => {
   const handleOutsideClick = (event: MouseEvent) => {
@@ -942,6 +960,7 @@ const handleImportBackup = async (
   categories[0]?.name ?? '',
 )
     setTags('')
+    setAutoSort(true)
     setEditingId(null)
   }
 
@@ -978,6 +997,62 @@ const handleImportBackup = async (
     return `https://${trimmed}`
   }
 
+  const getAutomaticOrganization = (value: string) => {
+    const hostname = getWebsiteHostname(value)
+
+    if (!hostname) {
+      return {
+        category: 'Uncategorized',
+        tags: [] as string[],
+        matchedSites: 0,
+      }
+    }
+
+    const domainMatches = websites.filter(
+      (site) =>
+        site.id !== editingId &&
+        getWebsiteHostname(site.url) === hostname,
+    )
+
+    if (domainMatches.length === 0) {
+      return {
+        category: 'Uncategorized',
+        tags: [] as string[],
+        matchedSites: 0,
+      }
+    }
+
+    const categoryCounts = new Map<string, number>()
+    const tagCounts = new Map<string, number>()
+
+    domainMatches.forEach((site) => {
+      categoryCounts.set(
+        site.category,
+        (categoryCounts.get(site.category) ?? 0) + 1,
+      )
+
+      site.tags.forEach((tag) => {
+        tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1)
+      })
+    })
+
+    const inferredCategory = [...categoryCounts.entries()]
+      .sort((a, b) => b[1] - a[1])[0]?.[0] ?? 'Uncategorized'
+
+    const inferredTags = [...tagCounts.entries()]
+      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+      .slice(0, 6)
+      .map(([tag]) => tag)
+
+    return {
+      category: inferredCategory,
+      tags: inferredTags,
+      matchedSites: domainMatches.length,
+    }
+  }
+
+  const automaticOrganization = getAutomaticOrganization(url)
+
   const saveWebsite = async () => {
     if (!name.trim()) {
       alert('Please enter a website name.')
@@ -989,7 +1064,7 @@ const handleImportBackup = async (
       return
     }
 
-    if (!category.trim()) {
+    if (!(editingId === null && autoSort) && !category.trim()) {
       alert('Please enter a category.')
       return
     }
@@ -1003,12 +1078,21 @@ const handleImportBackup = async (
       return
     }
 
-    const parsedTags = tags
+    const manuallyEnteredTags = tags
       .split(',')
       .map((tag) => tag.trim())
       .filter(Boolean)
 
-    const cleanCategory = category.trim()
+    const shouldAutoSort = editingId === null && autoSort
+    const cleanCategory = shouldAutoSort
+      ? automaticOrganization.category
+      : category.trim()
+    const parsedTags = Array.from(
+      new Set([
+        ...(shouldAutoSort ? automaticOrganization.tags : []),
+        ...manuallyEnteredTags,
+      ]),
+    )
     const categoryExists = categories.some(
       (item) => item.name.toLowerCase() === cleanCategory.toLowerCase(),
     )
@@ -1479,6 +1563,27 @@ return (
               />
             </label>
 
+            {editingId === null && (
+              <label className="auto-sort-field">
+                <span className="auto-sort-toggle">
+                  <input
+                    type="checkbox"
+                    checked={autoSort}
+                    onChange={(event) => setAutoSort(event.target.checked)}
+                  />
+                  Automatically sort this website
+                </span>
+
+                {autoSort && (
+                  <span className="field-hint auto-sort-result">
+                    {automaticOrganization.matchedSites > 0
+                      ? `Matched ${automaticOrganization.matchedSites} saved site(s) from this domain: ${automaticOrganization.category}${automaticOrganization.tags.length > 0 ? ` · ${automaticOrganization.tags.join(', ')}` : ''}`
+                      : 'New domain: this website will be saved in Uncategorized.'}
+                  </span>
+                )}
+              </label>
+            )}
+
             <label>
               Description
               <textarea
@@ -1494,11 +1599,19 @@ return (
   Category
 
   <select
-    value={category}
+    value={
+      editingId === null && autoSort
+        ? automaticOrganization.category
+        : category
+    }
+    disabled={editingId === null && autoSort}
     onChange={(event) =>
       setCategory(event.target.value)
     }
   >
+  {!categories.some((item) => item.name === 'Uncategorized') && (
+    <option value="Uncategorized">Uncategorized</option>
+  )}
   {rootCategories.map((item) => (
   <Fragment key={item.name}>
     <option value={item.name}>

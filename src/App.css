@@ -453,6 +453,35 @@ body {
   color: #676d77;
 }
 
+.auto-sort-field {
+  gap: 6px !important;
+  padding: 10px 12px;
+  border: 1px solid #292d35;
+  border-radius: 8px;
+  background: rgba(15, 17, 21, 0.7);
+}
+
+.auto-sort-toggle {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #d8dbe0;
+  font-size: 13px;
+}
+
+.modal .auto-sort-toggle input {
+  width: 16px;
+  min-height: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: #6268a5;
+}
+
+.auto-sort-result {
+  padding-left: 25px;
+  line-height: 1.45;
+}
+
 .modal-actions {
   display: flex;
   justify-content: flex-end;
