@@ -1211,7 +1211,7 @@ return (
       <div className="sidebar-header">
         <div className="logo">
   <ShinyText
-    text="Useful Websites"
+    text="Website Library"
     speed={4}
   />
 </div>
