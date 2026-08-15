@@ -464,21 +464,69 @@ body {
 .auto-sort-toggle {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 9px;
   color: #d8dbe0;
   font-size: 13px;
 }
 
-.modal .auto-sort-toggle input {
-  width: 16px;
-  min-height: 16px;
-  height: 16px;
+.toggle-switch {
+  --secondary-container: #30375f;
+  --primary: #9ea8ff;
+
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  width: 3.7em;
+  height: 1.8em;
+  font-size: 14px;
+}
+
+.modal .toggle-switch input {
+  position: absolute;
+  width: 1px;
+  min-height: 1px;
+  height: 1px;
   margin: 0;
-  accent-color: #6268a5;
+  opacity: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  border-radius: 30px;
+  background-color: #313033;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.toggle-slider::before {
+  position: absolute;
+  content: '';
+  width: 1.4em;
+  height: 1.4em;
+  left: 0.2em;
+  bottom: 0.2em;
+  border-radius: 50%;
+  background-color: #aeaaae;
+  transition: transform 0.35s ease, background-color 0.2s ease;
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background-color: var(--secondary-container);
+}
+
+.toggle-switch input:checked + .toggle-slider::before {
+  transform: translateX(1.9em);
+  background-color: var(--primary);
+}
+
+.toggle-switch input:focus-visible + .toggle-slider {
+  box-shadow: 0 0 0 3px rgba(98, 104, 165, 0.38);
 }
 
 .auto-sort-result {
-  padding-left: 25px;
+  padding-right: 60px;
   line-height: 1.45;
 }
 
