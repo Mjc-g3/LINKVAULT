@@ -13,6 +13,7 @@ import './App.css'
 import ShinyText from './ShinyText'
 import BorderGlow from './BorderGlow'
 import GradientWaves from './GradientWaves'
+import Galaxy from './Galaxy'
 import { supabase } from './supabase'
 
 import { icons, Folder } from 'lucide-react'
@@ -608,6 +609,13 @@ const importBackupRef =
   const [mobileNavigationOpen, setMobileNavigationOpen] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState('All')
   const mainScrollRef = useRef<HTMLElement | null>(null)
+  const [showBackToTop, setShowBackToTop] = useState(false)
+  const [backgroundEffect, setBackgroundEffect] = useState<'galaxy' | 'waves'>(
+    () =>
+      window.localStorage.getItem('website-library-background') === 'waves'
+        ? 'waves'
+        : 'galaxy',
+  )
   const [showModal, setShowModal] = useState(false)
   const [editingId, setEditingId] = useState<number | null>(null)
   const [openMenuId, setOpenMenuId] = useState<number | null>(null)
@@ -1468,6 +1476,13 @@ useEffect(() => {
   })
 }, [selectedCategory])
 
+useEffect(() => {
+  window.localStorage.setItem(
+    'website-library-background',
+    backgroundEffect,
+  )
+}, [backgroundEffect])
+
   
 if (!libraryLoaded) {
   return <div className="app"><div className="app-background" /></div>
@@ -1476,6 +1491,22 @@ if (!libraryLoaded) {
 return (
   <div className="app">
     <div className="app-background">
+  {backgroundEffect === 'galaxy' ? (
+    <Galaxy
+      mouseRepulsion={false}
+      mouseInteraction
+      density={0.8}
+      glowIntensity={0.2}
+      saturation={0.2}
+      hueShift={140}
+      twinkleIntensity={0.3}
+      rotationSpeed={0.1}
+      repulsionStrength={0}
+      autoCenterRepulsion={0}
+      starSpeed={1.3}
+      speed={0.2}
+    />
+  ) : (
   <GradientWaves
     horizonColor="#2731ff"
     waveColor="#6268a5"
@@ -1498,6 +1529,7 @@ return (
     grain
     grainIntensity={0.05}
   />
+  )}
 </div>
 
     <aside className={mobileNavigationOpen ? 'sidebar mobile-open' : 'sidebar'}>
@@ -1660,10 +1692,34 @@ return (
   />
 </div>
 
+<div className="background-section">
+  <p className="backup-heading">Background</p>
+  <div className="background-options" role="group" aria-label="Background effect">
+    <button
+      className={backgroundEffect === 'galaxy' ? 'active' : ''}
+      onClick={() => setBackgroundEffect('galaxy')}
+    >
+      Galaxy
+    </button>
+    <button
+      className={backgroundEffect === 'waves' ? 'active' : ''}
+      onClick={() => setBackgroundEffect('waves')}
+    >
+      Waves
+    </button>
+  </div>
+</div>
+
       </div>
     </aside>
 
-      <main className="main" ref={mainScrollRef}>
+      <main
+        className="main"
+        ref={mainScrollRef}
+        onScroll={(event) =>
+          setShowBackToTop(event.currentTarget.scrollTop > 260)
+        }
+      >
         <header className="topbar">
           <input
             type="text"
@@ -1731,6 +1787,19 @@ return (
             </div>
           )}
         </section>
+
+        <button
+          className={showBackToTop ? 'back-to-top visible' : 'back-to-top'}
+          onClick={() =>
+            mainScrollRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
+          }
+          aria-label="Back to top"
+          title="Back to top"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 19V5M6 11l6-6 6 6" />
+          </svg>
+        </button>
       </main>
 
       {showModal && (
