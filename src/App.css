@@ -953,9 +953,11 @@ body {
 .sidebar-section-heading {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 0 12px;
-  margin-bottom: 5px;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 32px;
+  padding: 0 6px 0 12px;
+  margin-bottom: 6px;
 }
 
 .sidebar-section-heading p {
@@ -963,22 +965,38 @@ body {
   padding: 0;
 }
 
-.add-category-button {
-  width: 26px;
-  height: 26px;
+.category-heading-actions {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.sidebar-section .category-heading-button {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
   border: none;
   background: transparent;
   color: #858c97;
   border-radius: 6px;
-  font-size: 18px;
-  display: grid;
-  place-items: center;
   padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.add-category-button:hover {
+.sidebar-section .category-heading-button:hover:not(:disabled) {
   background: #20242b;
   color: white;
+}
+
+.sidebar-section .category-heading-button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.sidebar-section .add-category-button {
+  color: #a5aaf1;
 }
 
 .category-list {
@@ -1119,25 +1137,6 @@ body {
 .website-card {
   cursor: pointer;
 }
-.sidebar-section .add-category-button {
-  width: 56px;
-  height: 26px;
-  min-width: 46px;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  place-items: center;
-  text-align: center;
-  line-height: 0;
-}
-.sidebar-section-heading {
-  justify-content: flex-start;
-}
-.sidebar-section .add-category-button {
-  transform: translateY(-2px);
-  transform: translateX(10px);
-}
-
 .sidebar-section .category-more-button {
   width: 26px;
   height: 26px;
