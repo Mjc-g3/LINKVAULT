@@ -1727,8 +1727,8 @@ return (
             glowRadius={22}
             glowIntensity={0.65}
             fillOpacity={0.16}
-            followNearestEdge
             fullStrengthOnHover
+            continuousGlow
           >
             <input
               type="text"
