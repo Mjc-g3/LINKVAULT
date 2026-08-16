@@ -20,7 +20,7 @@ body {
 /* Sidebar */
 
 .sidebar {
-  width: 230px;
+  width: 240px;
   height: 100dvh;
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -968,7 +968,9 @@ body {
 .category-heading-actions {
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: 1px;
+  position: relative;
+  left: 24px;
 }
 
 .sidebar-section .category-heading-button {
@@ -1697,4 +1699,9 @@ overflow: hidden;
 .subcategory-list .category-select.active
 .category-icon {
   opacity: 1;
+}
+
+.subcategory-toggle,
+.category-menu-wrapper {
+  transform: translateX(16px);
 }
