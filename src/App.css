@@ -20,7 +20,7 @@ body {
 /* Sidebar */
 
 .sidebar {
-  width: 240px;
+  width: 260px;
   height: 100dvh;
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -288,8 +288,8 @@ body {
 
 .website-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
 }
 
 .website-card {
