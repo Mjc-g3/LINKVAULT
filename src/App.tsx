@@ -16,7 +16,15 @@ import GradientWaves from './GradientWaves'
 import Galaxy from './Galaxy'
 import { supabase } from './supabase'
 
-import { ChevronDown, Folder, MoreHorizontal, icons } from 'lucide-react'
+import {
+  ChevronDown,
+  ChevronsDown,
+  ChevronsUp,
+  Folder,
+  MoreHorizontal,
+  Plus,
+  icons,
+} from 'lucide-react'
 
 import {
   downloadBackup,
@@ -1505,6 +1513,24 @@ const getChildCategories = (
       item.parent === parentName,
   )
 
+const collapsibleCategoryNames = rootCategories
+  .filter((item) => getChildCategories(item.name).length > 0)
+  .map((item) => item.name)
+
+const allSubcategoriesCollapsed =
+  collapsibleCategoryNames.length > 0 &&
+  collapsibleCategoryNames.every((name) => collapsedCategories.includes(name))
+
+const toggleAllSubcategories = () => {
+  setCollapsedCategories((current) => {
+    if (allSubcategoriesCollapsed) {
+      return current.filter((name) => !collapsibleCategoryNames.includes(name))
+    }
+
+    return Array.from(new Set([...current, ...collapsibleCategoryNames]))
+  })
+}
+
 const toggleCategoryCollapsed = (categoryName: string) => {
   setCollapsedCategories((current) =>
     current.includes(categoryName)
@@ -1638,13 +1664,30 @@ return (
   <div className="sidebar-section-heading">
     <p>Categories</p>
 
-    <button
-      className="add-category-button"
-      onClick={createCategory}
-      title="Add category"
-    >
-      +
-    </button>
+    <div className="category-heading-actions">
+      <button
+        className="category-heading-button"
+        type="button"
+        onClick={toggleAllSubcategories}
+        disabled={collapsibleCategoryNames.length === 0}
+        title={allSubcategoriesCollapsed ? 'Expand all subcategories' : 'Collapse all subcategories'}
+        aria-label={allSubcategoriesCollapsed ? 'Expand all subcategories' : 'Collapse all subcategories'}
+      >
+        {allSubcategoriesCollapsed
+          ? <ChevronsDown size={16} strokeWidth={2} aria-hidden="true" />
+          : <ChevronsUp size={16} strokeWidth={2} aria-hidden="true" />}
+      </button>
+
+      <button
+        className="category-heading-button add-category-button"
+        type="button"
+        onClick={createCategory}
+        title="Add category"
+        aria-label="Add category"
+      >
+        <Plus size={17} strokeWidth={2} aria-hidden="true" />
+      </button>
+    </div>
   </div>
 
   <DndContext
