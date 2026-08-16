@@ -116,6 +116,46 @@
   border-radius: inherit;
 }
 
+/* A cursor-positioned glow for very wide controls such as the search field.
+   Unlike the conic card effect, this follows the border continuously without
+   snapping between the long edges and rounded ends. */
+.border-glow-card.continuous-glow::before {
+  inset: -1px;
+  padding: 1px;
+  border: 0;
+  background: radial-gradient(
+    145px circle at var(--pointer-x) var(--pointer-y),
+    rgba(183, 190, 255, 0.98) 0,
+    rgba(98, 104, 165, 0.74) 30%,
+    rgba(67, 74, 135, 0.3) 58%,
+    transparent 78%
+  );
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: 1;
+}
+
+.border-glow-card.continuous-glow::after {
+  inset: -12px;
+  border: 0;
+  background: radial-gradient(
+    125px circle at calc(var(--pointer-x) + 12px) calc(var(--pointer-y) + 12px),
+    rgba(92, 102, 210, 0.34),
+    rgba(69, 77, 145, 0.13) 44%,
+    transparent 74%
+  );
+  filter: blur(7px);
+  mask: none;
+  mix-blend-mode: normal;
+  opacity: 1;
+}
+
+.border-glow-card.continuous-glow > .edge-light {
+  display: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .border-glow-card.sweep-active::before,
   .border-glow-card.sweep-active::after,

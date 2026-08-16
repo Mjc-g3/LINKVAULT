@@ -22,6 +22,7 @@ type BorderGlowProps = {
   animated?: boolean
   followNearestEdge?: boolean
   fullStrengthOnHover?: boolean
+  continuousGlow?: boolean
   colors?: string[]
   fillOpacity?: number
 }
@@ -88,6 +89,7 @@ function BorderGlow({
   animated = false,
   followNearestEdge = false,
   fullStrengthOnHover = false,
+  continuousGlow = false,
   colors = ['#6268a5', '#2731ff', '#ffffff'],
   fillOpacity = 0.28,
 }: BorderGlowProps) {
@@ -117,6 +119,8 @@ function BorderGlow({
     const rect = card.getBoundingClientRect()
     const x = event.clientX - rect.left
     const y = event.clientY - rect.top
+    card.style.setProperty('--pointer-x', `${x.toFixed(3)}px`)
+    card.style.setProperty('--pointer-y', `${y.toFixed(3)}px`)
     const proximity = fullStrengthOnHover
       ? 100
       : getEdgeProximity(card, x, y) * 100
@@ -198,6 +202,8 @@ function BorderGlow({
     '--glow-padding': `${glowRadius}px`,
     '--cone-spread': coneSpread,
     '--fill-opacity': fillOpacity,
+    '--pointer-x': '50%',
+    '--pointer-y': '50%',
     ...buildGlowVars(glowColor, glowIntensity),
     ...buildGradientVars(colors),
   }
@@ -206,7 +212,7 @@ function BorderGlow({
     <div
       ref={cardRef}
       onPointerMove={handlePointerMove}
-      className={`border-glow-card ${className}`}
+      className={`border-glow-card${continuousGlow ? ' continuous-glow' : ''} ${className}`}
       style={style}
     >
       <span className="edge-light" />
