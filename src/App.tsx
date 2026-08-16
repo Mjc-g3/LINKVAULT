@@ -1721,12 +1721,20 @@ return (
         }
       >
         <header className="topbar">
-          <input
-            type="text"
-            placeholder="Search websites, tags, categories..."
-            value={search}
-            onChange={(event) => setSearch(event.target.value)}
-          />
+          <BorderGlow
+            className="search-glow"
+            borderRadius={10}
+            glowRadius={22}
+            glowIntensity={0.65}
+            fillOpacity={0.16}
+          >
+            <input
+              type="text"
+              placeholder="Search websites, tags, categories..."
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+            />
+          </BorderGlow>
 
           <button
             className="add-button"
