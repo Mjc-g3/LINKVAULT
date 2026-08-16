@@ -17,9 +17,6 @@ import Galaxy from './Galaxy'
 import { supabase } from './supabase'
 
 import {
-  ChevronDown,
-  ChevronsDown,
-  ChevronsUp,
   Folder,
   MoreHorizontal,
   Plus,
@@ -372,9 +369,6 @@ type SortableCategoryProps = {
   renameCategory: (category: string) => void
   deleteCategory: (category: string) => void
   categoryMenuRef: RefObject<HTMLDivElement | null>
-  childCount?: number
-  collapsed?: boolean
-  onToggleCollapsed?: () => void
 }
 
 function SortableCategory({
@@ -386,9 +380,6 @@ function SortableCategory({
   renameCategory,
   deleteCategory,
   categoryMenuRef,
-  childCount = 0,
-  collapsed = false,
-  onToggleCollapsed,
 }: SortableCategoryProps) {
   const {
     attributes,
@@ -425,8 +416,8 @@ function SortableCategory({
       <button
   className={
     selectedCategory === item.name
-      ? `category-select active${childCount > 0 ? ' has-children' : ''}`
-      : `category-select${childCount > 0 ? ' has-children' : ''}`
+      ? 'category-select active'
+      : 'category-select'
   }
   onClick={() => setSelectedCategory(item.name)}
 >
@@ -447,22 +438,6 @@ function SortableCategory({
     )
   })()}
 </button>
-
-      {childCount > 0 && (
-        <button
-          className={collapsed ? 'subcategory-toggle collapsed' : 'subcategory-toggle'}
-          type="button"
-          onClick={(event) => {
-            event.stopPropagation()
-            onToggleCollapsed?.()
-          }}
-          aria-expanded={!collapsed}
-          aria-label={`${collapsed ? 'Show' : 'Hide'} ${childCount} subcategories in ${item.name}`}
-          title={`${collapsed ? 'Show' : 'Hide'} subcategories`}
-        >
-          <ChevronDown size={15} strokeWidth={2} aria-hidden="true" />
-        </button>
-      )}
 
       <div
         className="category-menu-wrapper"
@@ -643,18 +618,6 @@ const importBackupRef =
       ? 'category'
       : 'all',
   )
-  const [collapsedCategories, setCollapsedCategories] = useState<string[]>(() => {
-    try {
-      const saved = JSON.parse(
-        window.localStorage.getItem('website-library-collapsed-categories') ?? '[]',
-      )
-      return Array.isArray(saved)
-        ? saved.filter((value: unknown): value is string => typeof value === 'string')
-        : []
-    } catch {
-      return []
-    }
-  })
   const mainScrollRef = useRef<HTMLElement | null>(null)
   const [showBackToTop, setShowBackToTop] = useState(false)
   const [backgroundEffect, setBackgroundEffect] = useState<'galaxy' | 'waves'>(
@@ -1513,31 +1476,17 @@ const getChildCategories = (
       item.parent === parentName,
   )
 
-const collapsibleCategoryNames = rootCategories
-  .filter((item) => getChildCategories(item.name).length > 0)
-  .map((item) => item.name)
+const selectedCategoryItem = categories.find(
+  (item) => item.name === selectedCategory,
+)
 
-const allSubcategoriesCollapsed =
-  collapsibleCategoryNames.length > 0 &&
-  collapsibleCategoryNames.every((name) => collapsedCategories.includes(name))
+const activeRootCategory = selectedCategoryItem
+  ? selectedCategoryItem.parent ?? selectedCategoryItem.name
+  : null
 
-const toggleAllSubcategories = () => {
-  setCollapsedCategories((current) => {
-    if (allSubcategoriesCollapsed) {
-      return current.filter((name) => !collapsibleCategoryNames.includes(name))
-    }
-
-    return Array.from(new Set([...current, ...collapsibleCategoryNames]))
-  })
-}
-
-const toggleCategoryCollapsed = (categoryName: string) => {
-  setCollapsedCategories((current) =>
-    current.includes(categoryName)
-      ? current.filter((name) => name !== categoryName)
-      : [...current, categoryName],
-  )
-}
+const activeSubcategories = activeRootCategory
+  ? getChildCategories(activeRootCategory)
+  : []
 
 const selectCategory = (categoryName: string) => {
   setSelectedCategory(categoryName)
@@ -1561,13 +1510,6 @@ useEffect(() => {
 useEffect(() => {
   window.localStorage.setItem('website-library-search-scope', searchScope)
 }, [searchScope])
-
-useEffect(() => {
-  window.localStorage.setItem(
-    'website-library-collapsed-categories',
-    JSON.stringify(collapsedCategories),
-  )
-}, [collapsedCategories])
 
   
 if (!libraryLoaded) {
@@ -1666,19 +1608,6 @@ return (
 
     <div className="category-heading-actions">
       <button
-        className="category-heading-button"
-        type="button"
-        onClick={toggleAllSubcategories}
-        disabled={collapsibleCategoryNames.length === 0}
-        title={allSubcategoriesCollapsed ? 'Expand all subcategories' : 'Collapse all subcategories'}
-        aria-label={allSubcategoriesCollapsed ? 'Expand all subcategories' : 'Collapse all subcategories'}
-      >
-        {allSubcategoriesCollapsed
-          ? <ChevronsDown size={16} strokeWidth={2} aria-hidden="true" />
-          : <ChevronsUp size={16} strokeWidth={2} aria-hidden="true" />}
-      </button>
-
-      <button
         className="category-heading-button add-category-button"
         type="button"
         onClick={createCategory}
@@ -1696,71 +1625,30 @@ return (
   onDragEnd={handleCategoryDragEnd}
 >
   <SortableContext
-    items={categories.map(
+    items={rootCategories.map(
   (item) =>
     `category-${item.name}`,
 )}
     strategy={verticalListSortingStrategy}
   >
     <div className="category-list">
-      {rootCategories.map((item) => {
-  const children =
-    getChildCategories(item.name)
-  const collapsed = collapsedCategories.includes(item.name)
-
-  return (
+      {rootCategories.map((item) => (
     <div
       className="category-group"
       key={item.name}
     >
       <SortableCategory
         item={item}
-        selectedCategory={selectedCategory}
+        selectedCategory={activeRootCategory ?? selectedCategory}
         setSelectedCategory={selectCategory}
         openCategoryMenu={openCategoryMenu}
         setOpenCategoryMenu={setOpenCategoryMenu}
         renameCategory={renameCategory}
         deleteCategory={deleteCategory}
         categoryMenuRef={categoryMenuRef}
-        childCount={children.length}
-        collapsed={collapsed}
-        onToggleCollapsed={() => toggleCategoryCollapsed(item.name)}
       />
-
-      {children.length > 0 && !collapsed && (
-        <div className="subcategory-list">
-          {children.map((child) => (
-            <SortableCategory
-              key={child.name}
-              item={child}
-              selectedCategory={
-                selectedCategory
-              }
-              setSelectedCategory={
-                selectCategory
-              }
-              openCategoryMenu={
-                openCategoryMenu
-              }
-              setOpenCategoryMenu={
-                setOpenCategoryMenu
-              }
-              renameCategory={
-                renameCategory
-              }
-              deleteCategory={
-                deleteCategory
-              }
-              categoryMenuRef={
-                categoryMenuRef
-              }
-            />
-          ))}
-        </div>
-      )}
     </div>
-  )
-})}
+  ))}
 
       
     </div>
@@ -1887,7 +1775,71 @@ return (
 
               <p>{filteredWebsites.length} websites</p>
             </div>
+
+            {selectedCategoryItem?.parent && (
+              <div
+                className="selected-category-menu-wrapper"
+                ref={openCategoryMenu === selectedCategory ? categoryMenuRef : null}
+              >
+                <button
+                  className="selected-category-menu-button"
+                  type="button"
+                  title="Subcategory options"
+                  aria-label={`Options for ${selectedCategory}`}
+                  onClick={() =>
+                    setOpenCategoryMenu(
+                      openCategoryMenu === selectedCategory ? null : selectedCategory,
+                    )
+                  }
+                >
+                  <MoreHorizontal size={18} strokeWidth={2} aria-hidden="true" />
+                </button>
+
+                {openCategoryMenu === selectedCategory && (
+                  <div className="category-menu selected-category-menu">
+                    <button onClick={() => renameCategory(selectedCategory)}>
+                      Edit category
+                    </button>
+                    <div className="menu-divider" />
+                    <button
+                      className="delete-menu-item"
+                      onClick={() => deleteCategory(selectedCategory)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
+
+          {activeRootCategory &&
+            activeSubcategories.length > 0 &&
+            !(search.trim() && searchScope === 'all') && (
+              <nav
+                className="subcategory-chips"
+                aria-label={`${activeRootCategory} subcategories`}
+              >
+                <button
+                  className={selectedCategory === activeRootCategory ? 'subcategory-chip active' : 'subcategory-chip'}
+                  type="button"
+                  onClick={() => selectCategory(activeRootCategory)}
+                >
+                  All
+                </button>
+
+                {activeSubcategories.map((item) => (
+                  <button
+                    className={selectedCategory === item.name ? 'subcategory-chip active' : 'subcategory-chip'}
+                    type="button"
+                    key={item.name}
+                    onClick={() => selectCategory(item.name)}
+                  >
+                    {item.name}
+                  </button>
+                ))}
+              </nav>
+            )}
 
           <DndContext
   sensors={sensors}
