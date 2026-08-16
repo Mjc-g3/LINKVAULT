@@ -25,7 +25,7 @@ body {
   overflow-y: auto;
   overscroll-behavior: contain;
   border-right: 1px solid #20232a;
-  background: rgba(16, 18, 23, 0.52);
+  background: rgba(16, 18, 23, 0.80);
   padding: 24px 14px;
   flex-shrink: 0;
 }
@@ -110,7 +110,7 @@ body {
   overflow-y: auto;
   overscroll-behavior: contain;
 
-  background: rgba(12, 14, 18, 0.30);
+  background: rgba(12, 14, 18, 0.80);
 }
 
 .topbar {
@@ -189,21 +189,41 @@ body {
   color: #727985;
 }
 
-.add-button,
-.primary {
+.add-button {
   height: 44px;
-  background: #f4f4f4;
-  color: #101217;
-  border: none;
-  border-radius: 10px;
-  padding: 0 16px;
-  font-weight: 650;
-  white-space: nowrap;
+  background: #1a1d23;
+  color: #e7e9ed;
+  border: 1px solid #30343d;
+  border-radius: 12px;
+
+  box-shadow:
+    0 4px 14px rgba(0, 0, 0, 0.22),
+    inset 0 1px rgba(255, 255, 255, 0.04);
 }
 
-.add-button:hover,
-.primary:hover {
-  background: white;
+.add-button:hover {
+  background: #242830;
+  color: #ffffff;
+  border-color: #464c57;
+
+  box-shadow:
+    0 7px 20px rgba(0, 0, 0, 0.3),
+    inset 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.add-button::after {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+
+  transition: transform 0.8s ease;
+}
+
+.add-button:hover {
+  border-color: #464c57;
 }
 
 .content {
@@ -239,7 +259,7 @@ body {
 
 .website-card {
   position: relative;
-  background: rgba(16, 18, 23, 0.52);
+  background: rgba(16, 18, 23, 0.80);
   border: 1px solid #242831;
   border-radius: 13px;
   padding: 16px;
