@@ -1379,6 +1379,68 @@ overflow: hidden;
   height: 100%;
 }
 
+/* Slim, thumb-only scrollbars for the dark interface. */
+.main,
+.sidebar,
+.sidebar-content,
+.modal,
+.icon-picker {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(122, 129, 143, 0.62) transparent;
+}
+
+.main::-webkit-scrollbar,
+.sidebar::-webkit-scrollbar,
+.sidebar-content::-webkit-scrollbar,
+.modal::-webkit-scrollbar,
+.icon-picker::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+.main::-webkit-scrollbar-track,
+.sidebar::-webkit-scrollbar-track,
+.sidebar-content::-webkit-scrollbar-track,
+.modal::-webkit-scrollbar-track,
+.icon-picker::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.main::-webkit-scrollbar-thumb,
+.sidebar::-webkit-scrollbar-thumb,
+.sidebar-content::-webkit-scrollbar-thumb,
+.modal::-webkit-scrollbar-thumb,
+.icon-picker::-webkit-scrollbar-thumb {
+  min-height: 42px;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: rgba(122, 129, 143, 0.62);
+  background-clip: padding-box;
+}
+
+.main::-webkit-scrollbar-thumb:hover,
+.sidebar::-webkit-scrollbar-thumb:hover,
+.sidebar-content::-webkit-scrollbar-thumb:hover,
+.modal::-webkit-scrollbar-thumb:hover,
+.icon-picker::-webkit-scrollbar-thumb:hover {
+  background: rgba(165, 173, 190, 0.82);
+  background-clip: padding-box;
+}
+
+.main::-webkit-scrollbar-button,
+.sidebar::-webkit-scrollbar-button,
+.sidebar-content::-webkit-scrollbar-button,
+.modal::-webkit-scrollbar-button,
+.icon-picker::-webkit-scrollbar-button,
+.main::-webkit-scrollbar-corner,
+.sidebar::-webkit-scrollbar-corner,
+.sidebar-content::-webkit-scrollbar-corner,
+.modal::-webkit-scrollbar-corner,
+.icon-picker::-webkit-scrollbar-corner {
+  display: none;
+  background: transparent;
+}
+
 /* Animated action buttons, adapted from the referenced Uiverse style. */
 .add-button,
 .modal-actions button,
