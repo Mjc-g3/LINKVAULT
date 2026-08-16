@@ -20,6 +20,8 @@ type BorderGlowProps = {
   glowIntensity?: number
   coneSpread?: number
   animated?: boolean
+  followNearestEdge?: boolean
+  fullStrengthOnHover?: boolean
   colors?: string[]
   fillOpacity?: number
 }
@@ -84,6 +86,8 @@ function BorderGlow({
   glowIntensity = 0.8,
   coneSpread = 25,
   animated = false,
+  followNearestEdge = false,
+  fullStrengthOnHover = false,
   colors = ['#6268a5', '#2731ff', '#ffffff'],
   fillOpacity = 0.28,
 }: BorderGlowProps) {
@@ -113,9 +117,24 @@ function BorderGlow({
     const rect = card.getBoundingClientRect()
     const x = event.clientX - rect.left
     const y = event.clientY - rect.top
-    card.style.setProperty('--edge-proximity', `${(getEdgeProximity(card, x, y) * 100).toFixed(3)}`)
-    card.style.setProperty('--cursor-angle', `${getCursorAngle(card, x, y).toFixed(3)}deg`)
-  }, [getCursorAngle, getEdgeProximity])
+    const proximity = fullStrengthOnHover
+      ? 100
+      : getEdgeProximity(card, x, y) * 100
+
+    let angle = getCursorAngle(card, x, y)
+
+    if (followNearestEdge) {
+      const { width, height } = card.getBoundingClientRect()
+      const distances = [y, width - x, height - y, x]
+      const nearestEdge = distances.indexOf(Math.min(...distances))
+      const edgeX = nearestEdge === 1 ? width : nearestEdge === 3 ? 0 : x
+      const edgeY = nearestEdge === 0 ? 0 : nearestEdge === 2 ? height : y
+      angle = getCursorAngle(card, edgeX, edgeY)
+    }
+
+    card.style.setProperty('--edge-proximity', proximity.toFixed(3))
+    card.style.setProperty('--cursor-angle', `${angle.toFixed(3)}deg`)
+  }, [followNearestEdge, fullStrengthOnHover, getCursorAngle, getEdgeProximity])
 
   useEffect(() => {
     const card = cardRef.current
