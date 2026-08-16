@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="LinkVault lightning bolt">
+  <defs>
+    <linearGradient id="bolt" x1="16" y1="7" x2="48" y2="57" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#c8ceff"/>
+      <stop offset="0.48" stop-color="#8b7cf6"/>
+      <stop offset="1" stop-color="#47bfff"/>
+    </linearGradient>
+    <filter id="glow" x="-35%" y="-25%" width="170%" height="170%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2.2" result="blur"/>
+      <feFlood flood-color="#6268a5" flood-opacity="0.65" result="color"/>
+      <feComposite in="color" in2="blur" operator="in" result="halo"/>
+      <feMerge>
+        <feMergeNode in="halo"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <path
+    d="M36.5 4 12 35.5h17L25.5 60 52 27.5H34.5L36.5 4Z"
+    fill="url(#bolt)"
+    stroke="#342a72"
+    stroke-width="2"
+    stroke-linejoin="round"
+    filter="url(#glow)"
+  />
+</svg>
