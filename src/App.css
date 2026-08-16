@@ -49,6 +49,11 @@ body {
   align-items: center;
 }
 
+.brand-text {
+  letter-spacing: 0.055em;
+  filter: drop-shadow(0 0 8px rgba(98, 104, 165, 0.12));
+}
+
 .nav,
 .sidebar-section {
   display: flex;
