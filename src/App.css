@@ -1105,10 +1105,12 @@ body {
 }
 
 .category-menu-wrapper {
-  grid-column: 3;
-  position: relative;
+  grid-column: 4;
   width: 26px;
   height: 26px;
+
+  position: relative;
+  left: 4px;
 }
 
 .category-more-button {
