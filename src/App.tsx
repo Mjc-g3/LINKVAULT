@@ -16,7 +16,7 @@ import GradientWaves from './GradientWaves'
 import Galaxy from './Galaxy'
 import { supabase } from './supabase'
 
-import { icons, Folder } from 'lucide-react'
+import { ChevronDown, Folder, MoreHorizontal, icons } from 'lucide-react'
 
 import {
   downloadBackup,
@@ -452,7 +452,7 @@ function SortableCategory({
           aria-label={`${collapsed ? 'Show' : 'Hide'} ${childCount} subcategories in ${item.name}`}
           title={`${collapsed ? 'Show' : 'Hide'} subcategories`}
         >
-          <span aria-hidden="true">⌄</span>
+          <ChevronDown size={15} strokeWidth={2} aria-hidden="true" />
         </button>
       )}
 
@@ -477,7 +477,7 @@ function SortableCategory({
             )
           }}
         >
-          ⋯
+          <MoreHorizontal size={17} strokeWidth={2} aria-hidden="true" />
         </button>
 
         {openCategoryMenu === item.name && (
