@@ -364,6 +364,9 @@ type SortableCategoryProps = {
   renameCategory: (category: string) => void
   deleteCategory: (category: string) => void
   categoryMenuRef: RefObject<HTMLDivElement | null>
+  childCount?: number
+  collapsed?: boolean
+  onToggleCollapsed?: () => void
 }
 
 function SortableCategory({
@@ -375,6 +378,9 @@ function SortableCategory({
   renameCategory,
   deleteCategory,
   categoryMenuRef,
+  childCount = 0,
+  collapsed = false,
+  onToggleCollapsed,
 }: SortableCategoryProps) {
   const {
     attributes,
@@ -411,8 +417,8 @@ function SortableCategory({
       <button
   className={
     selectedCategory === item.name
-      ? 'category-select active'
-      : 'category-select'
+      ? `category-select active${childCount > 0 ? ' has-children' : ''}`
+      : `category-select${childCount > 0 ? ' has-children' : ''}`
   }
   onClick={() => setSelectedCategory(item.name)}
 >
@@ -433,6 +439,22 @@ function SortableCategory({
     )
   })()}
 </button>
+
+      {childCount > 0 && (
+        <button
+          className={collapsed ? 'subcategory-toggle collapsed' : 'subcategory-toggle'}
+          type="button"
+          onClick={(event) => {
+            event.stopPropagation()
+            onToggleCollapsed?.()
+          }}
+          aria-expanded={!collapsed}
+          aria-label={`${collapsed ? 'Show' : 'Hide'} ${childCount} subcategories in ${item.name}`}
+          title={`${collapsed ? 'Show' : 'Hide'} subcategories`}
+        >
+          <span aria-hidden="true">⌄</span>
+        </button>
+      )}
 
       <div
         className="category-menu-wrapper"
@@ -608,6 +630,23 @@ const importBackupRef =
   const [search, setSearch] = useState('')
   const [mobileNavigationOpen, setMobileNavigationOpen] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState('All')
+  const [searchScope, setSearchScope] = useState<'all' | 'category'>(() =>
+    window.localStorage.getItem('website-library-search-scope') === 'category'
+      ? 'category'
+      : 'all',
+  )
+  const [collapsedCategories, setCollapsedCategories] = useState<string[]>(() => {
+    try {
+      const saved = JSON.parse(
+        window.localStorage.getItem('website-library-collapsed-categories') ?? '[]',
+      )
+      return Array.isArray(saved)
+        ? saved.filter((value: unknown): value is string => typeof value === 'string')
+        : []
+    } catch {
+      return []
+    }
+  })
   const mainScrollRef = useRef<HTMLElement | null>(null)
   const [showBackToTop, setShowBackToTop] = useState(false)
   const [backgroundEffect, setBackgroundEffect] = useState<'galaxy' | 'waves'>(
@@ -712,6 +751,7 @@ const getCategoryAndChildren = (
 
   const filteredWebsites = websites.filter((site) => {
     const searchText = search.toLowerCase().trim()
+    const isGlobalSearch = searchText.length > 0 && searchScope === 'all'
 
     const selectedCategoryNames =
   selectedCategory === 'All' ||
@@ -722,6 +762,7 @@ const getCategoryAndChildren = (
       )
 
 const matchesCategory =
+  isGlobalSearch ||
   selectedCategory === 'All' ||
   selectedCategory === 'Favorites' ||
   selectedCategoryNames.includes(
@@ -729,7 +770,7 @@ const matchesCategory =
   )
 
     const matchesFavorite =
-      selectedCategory !== 'Favorites' || site.favorite
+      isGlobalSearch || selectedCategory !== 'Favorites' || site.favorite
 
     const matchesSearch =
       !searchText ||
@@ -1464,6 +1505,14 @@ const getChildCategories = (
       item.parent === parentName,
   )
 
+const toggleCategoryCollapsed = (categoryName: string) => {
+  setCollapsedCategories((current) =>
+    current.includes(categoryName)
+      ? current.filter((name) => name !== categoryName)
+      : [...current, categoryName],
+  )
+}
+
 const selectCategory = (categoryName: string) => {
   setSelectedCategory(categoryName)
   setMobileNavigationOpen(false)
@@ -1482,6 +1531,17 @@ useEffect(() => {
     backgroundEffect,
   )
 }, [backgroundEffect])
+
+useEffect(() => {
+  window.localStorage.setItem('website-library-search-scope', searchScope)
+}, [searchScope])
+
+useEffect(() => {
+  window.localStorage.setItem(
+    'website-library-collapsed-categories',
+    JSON.stringify(collapsedCategories),
+  )
+}, [collapsedCategories])
 
   
 if (!libraryLoaded) {
@@ -1603,6 +1663,7 @@ return (
       {rootCategories.map((item) => {
   const children =
     getChildCategories(item.name)
+  const collapsed = collapsedCategories.includes(item.name)
 
   return (
     <div
@@ -1618,9 +1679,12 @@ return (
         renameCategory={renameCategory}
         deleteCategory={deleteCategory}
         categoryMenuRef={categoryMenuRef}
+        childCount={children.length}
+        collapsed={collapsed}
+        onToggleCollapsed={() => toggleCategoryCollapsed(item.name)}
       />
 
-      {children.length > 0 && (
+      {children.length > 0 && !collapsed && (
         <div className="subcategory-list">
           {children.map((child) => (
             <SortableCategory
@@ -1731,12 +1795,30 @@ return (
             fullStrengthOnHover
             continuousGlow
           >
-            <input
-              type="text"
-              placeholder="Search websites, tags, categories..."
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-            />
+            <div className="search-field">
+              <input
+                type="text"
+                placeholder="Search websites, tags, categories..."
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+              />
+              <select
+                className="search-scope"
+                value={searchScope}
+                onChange={(event) =>
+                  setSearchScope(event.target.value as 'all' | 'category')
+                }
+                aria-label="Search scope"
+                title="Choose where to search"
+              >
+                <option value="all">All library</option>
+                <option value="category">
+                  {selectedCategory === 'All'
+                    ? 'Current view'
+                    : `In ${selectedCategory}`}
+                </option>
+              </select>
+            </div>
           </BorderGlow>
 
           <button
@@ -1751,7 +1833,9 @@ return (
           <div className="content-heading">
             <div>
               <h1>
-                {selectedCategory === 'Favorites'
+                {search.trim() && searchScope === 'all'
+                  ? 'Search Results'
+                  : selectedCategory === 'Favorites'
                   ? 'Favorites'
                   : selectedCategory === 'All'
                     ? 'All Websites'
@@ -1782,7 +1866,10 @@ return (
           openEditModal={openEditModal}
           deleteWebsite={deleteWebsite}
           menuRef={menuRef}
-          animateGlow={selectedCategory === 'Favorites'}
+          animateGlow={
+            selectedCategory === 'Favorites' &&
+            !(search.trim() && searchScope === 'all')
+          }
         />
       ))}
     </div>
@@ -1792,8 +1879,9 @@ return (
             <div className="empty-state">
               <h2>No websites found</h2>
               <p>
-                Try another search or add a website to this
-                category.
+                {search.trim() && searchScope === 'all'
+                  ? 'Try another search or switch to the current category scope.'
+                  : 'Try another search or add a website to this category.'}
               </p>
             </div>
           )}
