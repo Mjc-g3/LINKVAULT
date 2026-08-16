@@ -1536,8 +1536,9 @@ return (
       <div className="sidebar-header">
         <div className="logo">
   <ShinyText
-    text="Website Library"
-    speed={4}
+    text="⚡ LINKVAULT"
+    speed={9.5}
+    className="brand-text"
   />
 </div>
 
