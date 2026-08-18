@@ -215,6 +215,28 @@ function SortableWebsiteCard({
   menuRef,
   animateGlow,
 }: SortableWebsiteCardProps) {
+  const [descriptionExpanded, setDescriptionExpanded] = useState(false)
+  const [descriptionOverflows, setDescriptionOverflows] = useState(false)
+  const descriptionRef = useRef<HTMLParagraphElement | null>(null)
+
+  useEffect(() => {
+    const description = descriptionRef.current
+    if (!description || descriptionExpanded) return
+
+    const checkOverflow = () => {
+      setDescriptionOverflows(
+        description.scrollHeight > description.clientHeight + 1,
+      )
+    }
+
+    checkOverflow()
+
+    const observer = new ResizeObserver(checkOverflow)
+    observer.observe(description)
+
+    return () => observer.disconnect()
+  }, [site.description, descriptionExpanded])
+
 const {
   attributes,
   listeners,
@@ -235,10 +257,18 @@ const {
     <article
   ref={setNodeRef}
   style={style}
-  className="website-card-wrapper"
+  className={
+    descriptionExpanded
+      ? 'website-card-wrapper expanded'
+      : 'website-card-wrapper'
+  }
 >
   <BorderGlow
-    className="website-card"
+    className={
+      descriptionExpanded
+        ? 'website-card expanded'
+        : 'website-card'
+    }
     animated={animateGlow}
   >
     <div
@@ -348,7 +378,29 @@ const {
 
       <h2>{site.name}</h2>
 
-      <p>{site.description || 'No description provided.'}</p>
+      <p
+        ref={descriptionRef}
+        className={
+          descriptionExpanded
+            ? 'card-description expanded'
+            : 'card-description'
+        }
+      >
+        {site.description || 'No description provided.'}
+      </p>
+
+      {(descriptionOverflows || descriptionExpanded) && (
+        <button
+          type="button"
+          className="description-toggle"
+          onClick={(event) => {
+            event.stopPropagation()
+            setDescriptionExpanded((expanded) => !expanded)
+          }}
+        >
+          {descriptionExpanded ? 'Show less' : 'Show more'}
+        </button>
+      )}
 
       <div className="badges">
   ...
