@@ -934,9 +934,18 @@ body {
     grid-template-columns: 1fr;
   }
 
+  .website-card-wrapper {
+    height: auto;
+    min-height: 190px;
+  }
+
   .website-card {
     height: auto;
     min-height: 190px;
+  }
+
+  .website-card.expanded {
+    position: relative;
   }
 
   .modal-backdrop {
