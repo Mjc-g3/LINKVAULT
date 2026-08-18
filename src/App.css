@@ -1381,6 +1381,12 @@ overflow: hidden;
   transform: scale(1.04);
 }
 
+.sidebar-section .category-select.active {
+  border: 1px solid #6268a5;
+  background: rgba(69, 77, 145, 0.32);
+  color: white;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .category-select {
     transition:
