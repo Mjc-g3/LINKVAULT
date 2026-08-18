@@ -1369,6 +1369,29 @@ overflow: hidden;
   display: flex;
   align-items: center;
   gap: 9px;
+  transform-origin: center;
+  transition:
+    transform 0.18s ease,
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.category-select:hover,
+.category-select.active {
+  transform: scale(1.04);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .category-select {
+    transition:
+      background-color 0.15s ease,
+      color 0.15s ease;
+  }
+
+  .category-select:hover,
+  .category-select.active {
+    transform: none;
+  }
 }
 
 .category-icon {
