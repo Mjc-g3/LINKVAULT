@@ -102,13 +102,17 @@ async function syncTable(
 }
 
 class TableQuery {
-  constructor(private readonly table: TableName) {}
+  private readonly table: TableName
+
+  constructor(table: TableName) {
+    this.table = table
+  }
 
   select(_columns = '*') {
     return {
-      order: async (_column: string): Promise<ApiResult<unknown[]>> => {
+      order: async (_column: string): Promise<ApiResult<any[]>> => {
         try {
-          const data = await requestJson<unknown[]>(endpointFor(this.table))
+          const data = await requestJson<any[]>(endpointFor(this.table))
           return { data, error: null }
         } catch (error) {
           return {
