@@ -1,6 +1,2400 @@
 {
   "version": 1,
-  "updatedAt": "1970-01-01T00:00:00.000Z",
-  "websites": [],
-  "categories": []
+  "updatedAt": "2026-09-12T13:56:19.810Z",
+  "websites": [
+    {
+      "id": 1,
+      "name": "GitHub",
+      "url": "https://github.com",
+      "description": "Code hosting platform for Git repositories, collaboration, issues, releases, and open-source projects.",
+      "category": "Development",
+      "favorite": false,
+      "tags": [
+        "Development",
+        "Git",
+        "Repositories",
+        "Open Source",
+        "Code Hosting"
+      ],
+      "order": 0
+    },
+    {
+      "id": 2,
+      "name": "RealOEM",
+      "url": "https://www.realoem.com",
+      "description": "BMW OEM parts catalog with exploded diagrams, part numbers, and vehicle-specific fitment information.",
+      "category": "Automotive",
+      "favorite": false,
+      "tags": [
+        "BMW",
+        "OEM",
+        "Parts",
+        "Diagrams",
+        "Catalogue",
+        "Automotive"
+      ],
+      "order": 1
+    },
+    {
+      "id": 3,
+      "name": "Vite",
+      "url": "https://vite.dev",
+      "description": "Fast frontend build tool and development server for modern web projects.",
+      "category": "Web Development",
+      "favorite": false,
+      "tags": [
+        "Development",
+        "Frontend",
+        "JavaScript",
+        "Build Tool",
+        "Web"
+      ],
+      "order": 2
+    },
+    {
+      "id": 1786738862494,
+      "name": "iw4x",
+      "url": "https://iw4x.io",
+      "description": "Community client for Call of Duty: Modern Warfare 2 (2009) with dedicated servers and mod support.",
+      "category": "Call of Duty",
+      "favorite": false,
+      "tags": [
+        "Call of Duty",
+        "MW2",
+        "Client",
+        "Modding",
+        "Multiplayer"
+      ],
+      "order": 3
+    },
+    {
+      "id": 1786743195784,
+      "name": "X-Minus Pro AI",
+      "url": "https://x-minus.pro/ai",
+      "description": "AI-powered audio stem separator for splitting vocals and instruments into separate tracks.",
+      "category": "Audio Tools",
+      "favorite": false,
+      "tags": [
+        "Audio",
+        "AI",
+        "Stem Separation",
+        "Vocals",
+        "Music"
+      ],
+      "order": 4
+    },
+    {
+      "id": 1786743318184,
+      "name": "Delphi.tools",
+      "url": "https://delphi.tools/",
+      "description": "Collection of browser-based image editing, conversion, cleanup, and creative tools.",
+      "category": "Image Editing",
+      "favorite": false,
+      "tags": [
+        "Photo",
+        "Image Editing",
+        "Tools",
+        "Browser",
+        "Creative"
+      ],
+      "order": 5
+    },
+    {
+      "id": 1786743695725,
+      "name": "Class Central",
+      "url": "https://www.classcentral.com/",
+      "description": "Search and compare online courses, certificates, and learning resources from major education providers.",
+      "category": "Education",
+      "favorite": false,
+      "tags": [
+        "Education",
+        "Courses",
+        "Certificates",
+        "Online Learning"
+      ],
+      "order": 6
+    },
+    {
+      "id": 1786743916661,
+      "name": "Exercism",
+      "url": "https://exercism.org/",
+      "description": "Free coding practice platform with exercises, mentoring, and learning tracks for many programming languages.",
+      "category": "Programming Education",
+      "favorite": false,
+      "tags": [
+        "Education",
+        "Coding",
+        "Programming",
+        "Practice",
+        "Course"
+      ],
+      "order": 7
+    },
+    {
+      "id": 1786746158506,
+      "name": "CineHD",
+      "url": "https://cinehd.vc/",
+      "description": "Streaming site for movies and TV series.",
+      "category": "Streaming",
+      "favorite": false,
+      "tags": [
+        "Streaming",
+        "TV",
+        "Movies"
+      ],
+      "order": 8
+    },
+    {
+      "id": 1786746322428,
+      "name": "Dodi Repacks",
+      "url": "https://dodi-repacks.site/",
+      "description": "PC game repack site focused on compressed game releases.",
+      "category": "Gaming",
+      "favorite": false,
+      "tags": [
+        "Games",
+        "PC",
+        "Repacks",
+        "Piracy"
+      ],
+      "order": 9
+    },
+    {
+      "id": 1786746499968,
+      "name": "Rosebud AI",
+      "url": "https://rosebud.ai/",
+      "description": "AI-assisted platform for generating and prototyping games from text prompts.",
+      "category": "AI Tools",
+      "favorite": false,
+      "tags": [
+        "AI",
+        "Games",
+        "Development",
+        "Generation",
+        "Prototyping"
+      ],
+      "order": 10
+    },
+    {
+      "id": 1786746725122,
+      "name": "iFixIT",
+      "url": "https://www.ifixit.com/",
+      "description": "Step-by-step repair guides, teardowns, troubleshooting resources, and parts for electronics and other devices.",
+      "category": "Repair & DIY",
+      "favorite": false,
+      "tags": [
+        "Repair",
+        "DIY",
+        "Guides",
+        "Electronics",
+        "Teardown"
+      ],
+      "order": 11
+    },
+    {
+      "id": 1786746790646,
+      "name": "Typing Club",
+      "url": "https://www.typingclub.com/",
+      "description": "Free browser-based lessons and exercises for learning touch typing.",
+      "category": "Education",
+      "favorite": false,
+      "tags": [
+        "Typing",
+        "Education",
+        "Practice",
+        "Keyboard"
+      ],
+      "order": 12
+    },
+    {
+      "id": 1786746849422,
+      "name": "Codedex",
+      "url": "https://www.codedex.io/",
+      "description": "Interactive platform for learning programming through guided lessons, exercises, and projects.",
+      "category": "Programming Education",
+      "favorite": false,
+      "tags": [
+        "Coding",
+        "Education",
+        "Programming",
+        "Courses",
+        "Practice"
+      ],
+      "order": 13
+    },
+    {
+      "id": 1786746950776,
+      "name": "AirConsole",
+      "url": "https://www.airconsole.com/",
+      "description": "Browser-based multiplayer gaming platform that uses phones as controllers.",
+      "category": "Gaming",
+      "favorite": false,
+      "tags": [
+        "Games",
+        "Multiplayer",
+        "Browser",
+        "Mobile",
+        "Friends"
+      ],
+      "order": 14
+    },
+    {
+      "id": 1786747044682,
+      "name": "Yo Printables",
+      "url": "https://yoprintables.com/",
+      "description": "Printable coloring pages, drawing ideas, and other downloadable creative printables.",
+      "category": "Tools",
+      "favorite": false,
+      "tags": [
+        "Printables",
+        "Coloring",
+        "Creative",
+        "PDF",
+        "Drawing"
+      ],
+      "order": 15
+    },
+    {
+      "id": 1786747117664,
+      "name": "Coddy",
+      "url": "https://coddy.tech/",
+      "description": "Gamified coding lessons and challenges for learning programming in the browser.",
+      "category": "Programming Education",
+      "favorite": false,
+      "tags": [
+        "Coding",
+        "Education",
+        "Programming",
+        "Gamified Learning",
+        "Practice"
+      ],
+      "order": 16
+    },
+    {
+      "id": 1786747229440,
+      "name": "Temp Mail",
+      "url": "https://temp-mail.org",
+      "description": "Disposable temporary email service for receiving messages without using your main address.",
+      "category": "General Utilities",
+      "favorite": false,
+      "tags": [
+        "Email",
+        "Privacy",
+        "Temporary Email",
+        "Browser"
+      ],
+      "order": 17
+    },
+    {
+      "id": 1786747269961,
+      "name": "Cobalt",
+      "url": "https://cobalt.tools",
+      "description": "Simple web tool for downloading media from supported social and video platforms.",
+      "category": "General Utilities",
+      "favorite": false,
+      "tags": [
+        "Download",
+        "Video",
+        "Audio",
+        "Social Media",
+        "Browser"
+      ],
+      "order": 18
+    },
+    {
+      "id": 1786747345573,
+      "name": "Photopea",
+      "url": "https://photopea.com",
+      "description": "Free browser-based image editor with a Photoshop-like interface and support for PSD files.",
+      "category": "Image Editing",
+      "favorite": false,
+      "tags": [
+        "Photo",
+        "Image Editing",
+        "Graphic Design",
+        "PSD",
+        "Browser"
+      ],
+      "order": 19
+    },
+    {
+      "id": 1786747552896,
+      "name": "Tiny-WOW",
+      "url": "https://tinywow.com/",
+      "description": "Large collection of free browser tools for PDFs, images, video, files, writing, and conversions.",
+      "category": "General Utilities",
+      "favorite": false,
+      "tags": [
+        "Tools",
+        "PDF",
+        "Images",
+        "Video",
+        "Converter",
+        "Browser"
+      ],
+      "order": 20
+    },
+    {
+      "id": 1786747619804,
+      "name": "Just Watch",
+      "url": "https://www.justwatch.com/",
+      "description": "Search engine for finding where movies and TV shows are legally available to stream, rent, or buy.",
+      "category": "Streaming Discovery",
+      "favorite": false,
+      "tags": [
+        "Streaming",
+        "TV",
+        "Movies",
+        "Search",
+        "Availability"
+      ],
+      "order": 21
+    },
+    {
+      "id": 1786747707055,
+      "name": "PDF-Drive",
+      "url": "https://www.pdfdrive.com/",
+      "description": "Searchable index of PDF documents and ebooks.",
+      "category": "Books & Reading",
+      "favorite": false,
+      "tags": [
+        "PDF",
+        "Books",
+        "Ebooks",
+        "Search",
+        "Download"
+      ],
+      "order": 22
+    },
+    {
+      "id": 1786747836200,
+      "name": "Unscreen",
+      "url": "https://www.canva.com/features/video-background-remover/",
+      "description": "Online tool for automatically removing backgrounds from video.",
+      "category": "Video Tools",
+      "favorite": false,
+      "tags": [
+        "Video",
+        "Background Removal",
+        "Editing",
+        "Browser"
+      ],
+      "order": 23
+    },
+    {
+      "id": 1786750150230,
+      "name": "Tune Find",
+      "url": "https://www.tunefind.com/",
+      "description": "Find songs and music featured in TV shows, movies, and other media.",
+      "category": "Audio Discovery",
+      "favorite": false,
+      "tags": [
+        "Audio",
+        "Music",
+        "TV",
+        "Movies",
+        "Soundtrack"
+      ],
+      "order": 24
+    },
+    {
+      "id": 1786750218700,
+      "name": "Radio Garden",
+      "url": "https://radio.garden",
+      "description": "Interactive globe for listening to live radio stations from around the world.",
+      "category": "Audio Tools",
+      "favorite": false,
+      "tags": [
+        "Audio",
+        "Radio",
+        "Music",
+        "Live",
+        "Worldwide"
+      ],
+      "order": 25
+    },
+    {
+      "id": 1786750363498,
+      "name": "YouTube Summarize",
+      "url": "https://summarize.tech",
+      "description": "AI tool for generating summaries of YouTube videos.",
+      "category": "AI Tools",
+      "favorite": false,
+      "tags": [
+        "YouTube",
+        "AI",
+        "Summarization",
+        "Video"
+      ],
+      "order": 26
+    },
+    {
+      "id": 1786750610244,
+      "name": "React Bits",
+      "url": "https://reactbits.dev",
+      "description": "Library of reusable React components, effects, and UI snippets.",
+      "category": "Web Development",
+      "favorite": false,
+      "tags": [
+        "React",
+        "Coding",
+        "Frontend",
+        "UI",
+        "Components"
+      ],
+      "order": 27
+    },
+    {
+      "id": 1786750733832,
+      "name": "BrickLink Studio",
+      "url": "https://www.bricklink.com/v3/studio/download.page",
+      "description": "Desktop LEGO design software for building digital models and creating instructions.",
+      "category": "3D & CAD",
+      "favorite": false,
+      "tags": [
+        "LEGO",
+        "Design",
+        "3D",
+        "CAD",
+        "Desktop Application"
+      ],
+      "order": 28
+    },
+    {
+      "id": 1786750819907,
+      "name": "Rec0deD:88",
+      "url": "https://rec0ded88.com/",
+      "description": "Browser-based collection of retro games playable online.",
+      "category": "Gaming",
+      "favorite": false,
+      "tags": [
+        "Games",
+        "Retro",
+        "Browser",
+        "Emulation"
+      ],
+      "order": 29
+    },
+    {
+      "id": 1786750898864,
+      "name": "CMSNL",
+      "url": "https://www.cmsnl.com/",
+      "description": "OEM motorcycle and vehicle parts catalog with diagrams and part-number lookup.",
+      "category": "Automotive",
+      "favorite": false,
+      "tags": [
+        "Motorcycle",
+        "Automotive",
+        "OEM",
+        "Parts",
+        "Catalogue",
+        "Diagrams"
+      ],
+      "order": 30
+    },
+    {
+      "id": 1786751036118,
+      "name": "Printful",
+      "url": "https://www.printful.com/",
+      "description": "Print-on-demand platform for creating and selling custom apparel, merchandise, and branded products.",
+      "category": "Side Hustles",
+      "favorite": false,
+      "tags": [
+        "Print on Demand",
+        "Merchandise",
+        "Clothing",
+        "Ecommerce",
+        "Side Hustle"
+      ],
+      "order": 31
+    },
+    {
+      "id": 1786751093412,
+      "name": "Nano Banana",
+      "url": "https://nanobanana.io/",
+      "description": "AI image generation and design tool for creating and editing visual content.",
+      "category": "AI Tools",
+      "favorite": false,
+      "tags": [
+        "AI",
+        "Images",
+        "Generation",
+        "Design",
+        "Creative"
+      ],
+      "order": 32
+    },
+    {
+      "id": 1786751156865,
+      "name": "Infinity Free",
+      "url": "https://www.infinityfree.com/",
+      "description": "Free web hosting service for small websites and web projects.",
+      "category": "Web Hosting",
+      "favorite": false,
+      "tags": [
+        "Web",
+        "Hosting",
+        "Free",
+        "Development"
+      ],
+      "order": 33
+    },
+    {
+      "id": 1786751235128,
+      "name": "Mult",
+      "url": "https://mult.dev/",
+      "description": "Web tool for creating animated travel maps and route visualizations.",
+      "category": "Web",
+      "favorite": false,
+      "tags": [
+        "Travel",
+        "Map",
+        "Animation",
+        "Video",
+        "Browser"
+      ],
+      "order": 34
+    },
+    {
+      "id": 1786751305799,
+      "name": "Light PDF",
+      "url": "https://lightpdf.com/",
+      "description": "Online PDF editor and toolkit for editing, converting, signing, and managing PDF files.",
+      "category": "PDF Tools",
+      "favorite": false,
+      "tags": [
+        "PDF",
+        "Editing",
+        "Converter",
+        "Browser",
+        "Documents"
+      ],
+      "order": 35
+    },
+    {
+      "id": 1786751370644,
+      "name": "DevDocs",
+      "url": "https://devdocs.io/",
+      "description": "Fast searchable documentation browser for many programming languages, frameworks, and APIs.",
+      "category": "Coding",
+      "favorite": false,
+      "tags": [
+        "Coding",
+        "Documentation",
+        "Programming",
+        "Reference",
+        "Development"
+      ],
+      "order": 36
+    },
+    {
+      "id": 1786751439792,
+      "name": "Clip Goat",
+      "url": "https://www.clipgoat.com/",
+      "description": "AI tool for generating short-form video clips from longer content.",
+      "category": "AI Tools",
+      "favorite": false,
+      "tags": [
+        "Video",
+        "AI",
+        "Shorts",
+        "Generation",
+        "Social Media"
+      ],
+      "order": 37
+    },
+    {
+      "id": 1786751569724,
+      "name": "Zoo",
+      "url": "https://zoo.dev/",
+      "description": "AI-assisted CAD and 3D modeling platform for creating models from text and code.",
+      "category": "3D Printing",
+      "favorite": false,
+      "tags": [
+        "3D",
+        "CAD",
+        "AI",
+        "3D Printing",
+        "Modeling"
+      ],
+      "order": 38
+    },
+    {
+      "id": 1786751630751,
+      "name": "Convert-to-it",
+      "url": "https://p2r3.github.io/convert/",
+      "description": "Browser-based file converter supporting a wide range of formats.",
+      "category": "File Conversion",
+      "favorite": false,
+      "tags": [
+        "Converter",
+        "Files",
+        "Browser",
+        "Free",
+        "Online"
+      ],
+      "order": 39
+    },
+    {
+      "id": 1786751676236,
+      "name": "Cloud Convert",
+      "url": "https://cloudconvert.com/",
+      "description": "Online file conversion service supporting documents, images, audio, video, archives, and more.",
+      "category": "File Conversion",
+      "favorite": false,
+      "tags": [
+        "Converter",
+        "Files",
+        "Online",
+        "Browser",
+        "Documents"
+      ],
+      "order": 40
+    },
+    {
+      "id": 1786751766933,
+      "name": "Rate my PC",
+      "url": "https://www.systemrequirementslab.com/rank-my-computer",
+      "description": "Checks PC hardware and compares system specifications against game and software requirements.",
+      "category": "PC & Hardware",
+      "favorite": false,
+      "tags": [
+        "PC",
+        "Hardware",
+        "Compatibility",
+        "Benchmark",
+        "System Requirements"
+      ],
+      "order": 41
+    },
+    {
+      "id": 1786751879494,
+      "name": "Play Phrase",
+      "url": "https://www.playphrase.me/#/search?language=en",
+      "description": "Search for spoken phrases and find matching clips from movies and TV shows.",
+      "category": "Web",
+      "favorite": false,
+      "tags": [
+        "Movies",
+        "TV",
+        "Phrase",
+        "Search",
+        "Video"
+      ],
+      "order": 42
+    },
+    {
+      "id": 1786751937597,
+      "name": "Abacus",
+      "url": "https://abacus.ai/",
+      "description": "AI platform that provides access to multiple models and AI-powered tools in one place.",
+      "category": "AI Tools",
+      "favorite": false,
+      "tags": [
+        "AI",
+        "Tools",
+        "Models",
+        "Productivity"
+      ],
+      "order": 43
+    },
+    {
+      "id": 1786752006443,
+      "name": "Pixel Motion",
+      "url": "https://www.pixelmotion.art/",
+      "description": "Creates animated motion graphics and visual effects from still images.",
+      "category": "Motion Graphics",
+      "favorite": false,
+      "tags": [
+        "Video",
+        "Photo",
+        "Motion Graphics",
+        "Animation",
+        "Creative"
+      ],
+      "order": 44
+    },
+    {
+      "id": 1786752094808,
+      "name": "Hera",
+      "url": "https://hera.video/",
+      "description": "AI-powered tool for generating motion graphics and animated visual content.",
+      "category": "Motion Graphics",
+      "favorite": false,
+      "tags": [
+        "Motion Graphics",
+        "Video",
+        "AI",
+        "Generation",
+        "Animation"
+      ],
+      "order": 45
+    },
+    {
+      "id": 1786752196242,
+      "name": "ROMs Megathread",
+      "url": "https://r-roms.github.io/",
+      "description": "Community-maintained index of ROM and game archive resources for many platforms.",
+      "category": "Piracy",
+      "favorite": false,
+      "tags": [
+        "Games",
+        "ROMs",
+        "Emulation",
+        "Piracy",
+        "Archive"
+      ],
+      "order": 46
+    },
+    {
+      "id": 1786753185949,
+      "name": "Gnarly Repacks",
+      "url": "https://rentry.org/gnarly_repacks",
+      "description": "Collection of compressed game repacks.",
+      "category": "Piracy",
+      "favorite": false,
+      "tags": [
+        "Games",
+        "Repacks",
+        "Piracy"
+      ],
+      "order": 47
+    },
+    {
+      "id": 1786753248645,
+      "name": "CODMVM",
+      "url": "https://codmvm.com/",
+      "description": "Movie-making and cinematic capture tools for supported Call of Duty titles.",
+      "category": "Call of Duty",
+      "favorite": false,
+      "tags": [
+        "Call of Duty",
+        "Modding",
+        "Movie Making",
+        "PC",
+        "Tools"
+      ],
+      "order": 48
+    },
+    {
+      "id": 1786782676392,
+      "name": "GameTechWiki",
+      "url": "https://emulation.gametechwiki.com/index.php/Main_Page",
+      "description": "Community wiki covering emulators, compatibility, hardware, BIOS information, and emulation setup.",
+      "category": "Emulators",
+      "favorite": false,
+      "tags": [
+        "Emulator",
+        "Games",
+        "Retro",
+        "Wiki",
+        "BIOS"
+      ],
+      "order": 49
+    },
+    {
+      "id": 1786789396639,
+      "name": "FMHY",
+      "url": "https://fmhy.net/",
+      "description": "Large community-maintained directory of free media, software, tools, and online resources.",
+      "category": "Web",
+      "favorite": false,
+      "tags": [
+        "Tools",
+        "Web",
+        "Free",
+        "Directory",
+        "Resources"
+      ],
+      "order": 50
+    },
+    {
+      "id": 1786789475648,
+      "name": "Text Lab",
+      "url": "https://textlab.javii.tools/",
+      "description": "Browser-based text mockup and typography generator for creating stylized text graphics.",
+      "category": "Image Editing",
+      "favorite": false,
+      "tags": [
+        "Photo",
+        "Mockup",
+        "Typography",
+        "Graphic Design",
+        "Browser"
+      ],
+      "order": 51
+    },
+    {
+      "id": 1786789569397,
+      "name": "Eyecandy",
+      "url": "https://eyecannndy.com/",
+      "description": "Curated visual reference library for filmmaking techniques, effects, transitions, and video inspiration.",
+      "category": "Video Tools",
+      "favorite": false,
+      "tags": [
+        "Video",
+        "Education",
+        "Visual Effects",
+        "Filmmaking",
+        "Reference"
+      ],
+      "order": 52
+    },
+    {
+      "id": 1786789642895,
+      "name": "PCSX2",
+      "url": "https://pcsx2.net/",
+      "description": "Open-source PlayStation 2 emulator for Windows, Linux, and macOS.",
+      "category": "Emulators",
+      "favorite": false,
+      "tags": [
+        "PS2",
+        "Emulator",
+        "PlayStation",
+        "Open Source"
+      ],
+      "order": 53
+    },
+    {
+      "id": 1786789677623,
+      "name": "PPSSPP",
+      "url": "https://www.ppsspp.org/index.html",
+      "description": "Open-source PSP emulator for desktop and mobile platforms.",
+      "category": "Emulators",
+      "favorite": false,
+      "tags": [
+        "PSP",
+        "Emulator",
+        "PlayStation",
+        "Open Source"
+      ],
+      "order": 54
+    },
+    {
+      "id": 1786789707195,
+      "name": "RPCS3",
+      "url": "https://rpcs3.net/",
+      "description": "Open-source PlayStation 3 emulator and debugger for PC.",
+      "category": "Emulators",
+      "favorite": false,
+      "tags": [
+        "PS3",
+        "Emulator",
+        "PlayStation",
+        "Open Source"
+      ],
+      "order": 55
+    },
+    {
+      "id": 1786789804197,
+      "name": "uBlock Origin",
+      "url": "https://ublockorigin.com/",
+      "description": "Free and open-source browser content blocker for ads, trackers, and other unwanted page elements.",
+      "category": "Browser extensions",
+      "favorite": false,
+      "tags": [
+        "Ad Blocker",
+        "Browser",
+        "Extension",
+        "Privacy",
+        "Open Source"
+      ],
+      "order": 56
+    },
+    {
+      "id": 1786789851164,
+      "name": "Violentmonkey",
+      "url": "https://violentmonkey.github.io/",
+      "description": "Open-source userscript manager for running custom scripts in supported browsers.",
+      "category": "Browser extensions",
+      "favorite": false,
+      "tags": [
+        "Userscripts",
+        "Browser",
+        "Extension",
+        "Open Source",
+        "Automation"
+      ],
+      "order": 57
+    },
+    {
+      "id": 1786789915852,
+      "name": "Shortlinks debloater",
+      "url": "https://codeberg.org/gongchandang49/bypass-all-shortlinks-debloated",
+      "description": "Userscript project for bypassing or simplifying many link-shortener pages.",
+      "category": "Browser extensions",
+      "favorite": false,
+      "tags": [
+        "Browser",
+        "Userscripts",
+        "Bypass",
+        "Automation",
+        "Open Source"
+      ],
+      "order": 58
+    },
+    {
+      "id": 1786789959575,
+      "name": "Bypass FileCrypt",
+      "url": "https://greasyfork.org/en/scripts/403170-bypass-filecrypt",
+      "description": "Userscript for extracting original destination links from FileCrypt pages.",
+      "category": "Browser extensions",
+      "favorite": false,
+      "tags": [
+        "Browser",
+        "Userscripts",
+        "Bypass",
+        "Download"
+      ],
+      "order": 59
+    },
+    {
+      "id": 1786790031235,
+      "name": "Get Data from Steam / SteamDB",
+      "url": "https://github.com/Sak32009/GetDataFromSteam-SteamDB",
+      "description": "Userscript/tool for extracting Steam and SteamDB game or DLC information.",
+      "category": "Browser extensions",
+      "favorite": false,
+      "tags": [
+        "Steam",
+        "SteamDB",
+        "Userscripts",
+        "Browser",
+        "Open Source"
+      ],
+      "order": 60
+    },
+    {
+      "id": 1786790109691,
+      "name": "LocalCDN",
+      "url": "https://www.localcdn.org/",
+      "description": "Privacy-focused browser extension that locally emulates common content-delivery-network resources.",
+      "category": "Browser extensions",
+      "favorite": false,
+      "tags": [
+        "Privacy",
+        "Browser",
+        "Extension",
+        "Open Source"
+      ],
+      "order": 61
+    },
+    {
+      "id": 1786790195900,
+      "name": "CreamAPI",
+      "url": "https://cs.rin.ru/forum/viewtopic.php?f=29&t=70576",
+      "description": "Steam DLC unlocker framework commonly used to emulate DLC ownership.",
+      "category": "Piracy",
+      "favorite": false,
+      "tags": [
+        "Piracy",
+        "DLC",
+        "Steam",
+        "Unlocker",
+        "Games"
+      ],
+      "order": 62
+    },
+    {
+      "id": 1786790273958,
+      "name": "Auto CreamAPI",
+      "url": "https://cs.rin.ru/forum/viewtopic.php?p=2013521#p2013521",
+      "description": "Automation tool for configuring CreamAPI-style DLC unlocking for supported Steam games.",
+      "category": "Piracy",
+      "favorite": false,
+      "tags": [
+        "Piracy",
+        "DLC",
+        "Steam",
+        "Unlocker",
+        "Automation"
+      ],
+      "order": 63
+    },
+    {
+      "id": 1786790332234,
+      "name": "Plutonium",
+      "url": "https://plutonium.pw/",
+      "description": "Community Call of Duty client with dedicated servers, multiplayer support, and modding features.",
+      "category": "Call of Duty",
+      "favorite": false,
+      "tags": [
+        "Call of Duty",
+        "Client",
+        "Modding",
+        "Multiplayer",
+        "Dedicated Servers"
+      ],
+      "order": 64
+    },
+    {
+      "id": 1786790384006,
+      "name": "Skymods",
+      "url": "https://catalogue.smods.ru/",
+      "description": "Catalog of downloadable mods for a wide range of PC games.",
+      "category": "Game Modding",
+      "favorite": false,
+      "tags": [
+        "Games",
+        "Modding",
+        "Mods",
+        "Catalogue"
+      ],
+      "order": 65
+    },
+    {
+      "id": 1786790423614,
+      "name": "Origin DLC unlocker",
+      "url": "https://cs.rin.ru/forum/viewtopic.php?f=20&t=104412",
+      "description": "DLC unlocker for supported EA/Origin games.",
+      "category": "Piracy",
+      "favorite": false,
+      "tags": [
+        "Origin",
+        "EA",
+        "DLC",
+        "Unlocker",
+        "Piracy"
+      ],
+      "order": 66
+    },
+    {
+      "id": 1786792183976,
+      "name": "r/PiratedGames FAQ",
+      "url": "https://www.reddit.com/r/PiratedGames/wiki/faq/",
+      "description": "FAQ and reference guide for the r/PiratedGames community.",
+      "category": "Piracy subreddits",
+      "favorite": false,
+      "tags": [
+        "Piracy",
+        "Reddit",
+        "Games",
+        "FAQ"
+      ],
+      "order": 67
+    },
+    {
+      "id": 1786792200436,
+      "name": "r/Piracy",
+      "url": "https://www.reddit.com/r/Piracy",
+      "description": "General Reddit community focused on digital piracy discussion, news, and resources.",
+      "category": "Piracy subreddits",
+      "favorite": false,
+      "tags": [
+        "Piracy",
+        "Reddit",
+        "Community"
+      ],
+      "order": 68
+    },
+    {
+      "id": 1786792221918,
+      "name": "r/CrackWatch",
+      "url": "https://www.reddit.com/r/CrackWatch",
+      "description": "Reddit community tracking PC game crack and DRM-release status.",
+      "category": "Piracy subreddits",
+      "favorite": false,
+      "tags": [
+        "Piracy",
+        "Reddit",
+        "Games",
+        "DRM"
+      ],
+      "order": 69
+    },
+    {
+      "id": 1786792243254,
+      "name": "r/Cracksupport",
+      "url": "https://www.reddit.com/r/CrackSupport",
+      "description": "Reddit community for troubleshooting cracked games and related software issues.",
+      "category": "Piracy subreddits",
+      "favorite": false,
+      "tags": [
+        "Piracy",
+        "Reddit",
+        "Support",
+        "Games"
+      ],
+      "order": 70
+    },
+    {
+      "id": 1786792269934,
+      "name": "r/DenuvoSanctuary",
+      "url": "https://www.reddit.com/r/DenuvoSanctuary",
+      "description": "Reddit community centered on Denuvo DRM discussion and related game-release topics.",
+      "category": "Piracy subreddits",
+      "favorite": false,
+      "tags": [
+        "Piracy",
+        "Reddit",
+        "Denuvo",
+        "DRM",
+        "Games"
+      ],
+      "order": 71
+    },
+    {
+      "id": 1786792287756,
+      "name": "r/FREEMEDIAHECKYEAH",
+      "url": "https://reddit.com/r/FREEMEDIAHECKYEAH",
+      "description": "Reddit community and resource hub for free media, software, and online tools.",
+      "category": "Piracy subreddits",
+      "favorite": false,
+      "tags": [
+        "Piracy",
+        "Reddit",
+        "Free Media",
+        "Resources"
+      ],
+      "order": 72
+    },
+    {
+      "id": 1786792303007,
+      "name": "r/LinuxCrackSupport",
+      "url": "https://www.reddit.com/r/LinuxCrackSupport",
+      "description": "Reddit community for running and troubleshooting cracked games on Linux.",
+      "category": "Piracy subreddits",
+      "favorite": false,
+      "tags": [
+        "Piracy",
+        "Reddit",
+        "Linux",
+        "Games",
+        "Support"
+      ],
+      "order": 73
+    },
+    {
+      "id": 1786792316606,
+      "name": "r/QuestPiracy",
+      "url": "https://reddit.com/r/QuestPiracy",
+      "description": "Reddit community focused on Meta Quest piracy and VR software.",
+      "category": "Piracy subreddits",
+      "favorite": false,
+      "tags": [
+        "Piracy",
+        "Reddit",
+        "VR",
+        "Meta Quest"
+      ],
+      "order": 74
+    },
+    {
+      "id": 1786792335148,
+      "name": "r/SteamDeckPirates",
+      "url": "https://www.reddit.com/r/SteamDeckPirates/",
+      "description": "Reddit community focused on piracy and game setup on Steam Deck.",
+      "category": "Piracy subreddits",
+      "favorite": false,
+      "tags": [
+        "Piracy",
+        "Reddit",
+        "Steam Deck",
+        "Games"
+      ],
+      "order": 75
+    },
+    {
+      "id": 1786792349020,
+      "name": "r/SwitchPirates",
+      "url": "https://www.reddit.com/r/SwitchPirates/",
+      "description": "Reddit community focused on Nintendo Switch piracy, modding, and related tools.",
+      "category": "Piracy subreddits",
+      "favorite": false,
+      "tags": [
+        "Piracy",
+        "Reddit",
+        "Nintendo Switch",
+        "Modding"
+      ],
+      "order": 76
+    },
+    {
+      "id": 1786792423132,
+      "name": "Google-based Pirated Games Search Engine",
+      "url": "https://cse.google.com/cse?cx=20c2a3e5f702049aa",
+      "description": "Custom Google search engine focused on finding pirated PC game resources.",
+      "category": "Piracy",
+      "favorite": false,
+      "tags": [
+        "Search Engine",
+        "Piracy",
+        "Games",
+        "Google"
+      ],
+      "order": 77
+    },
+    {
+      "id": 1786792467083,
+      "name": "Hydra Launcher",
+      "url": "https://hydralauncher.gg/",
+      "description": "Open-source game launcher that organizes downloads and installations from community sources.",
+      "category": "Piracy",
+      "favorite": false,
+      "tags": [
+        "Piracy",
+        "Games",
+        "Launcher",
+        "Desktop Application",
+        "Open Source"
+      ],
+      "order": 78
+    },
+    {
+      "id": 1786792554696,
+      "name": "1337x",
+      "url": "https://1337x.to/",
+      "description": "General-purpose torrent index and search site.",
+      "category": "Torrent Sites",
+      "favorite": false,
+      "tags": [
+        "Piracy",
+        "Torrent",
+        "Search Engine",
+        "Index"
+      ],
+      "order": 79
+    },
+    {
+      "id": 1786792586130,
+      "name": "EMPRESS Releases",
+      "url": "https://telegra.ph/empress-biography-07-15",
+      "description": "Reference page for games released or cracked by EMPRESS.",
+      "category": "Torrent Sites",
+      "favorite": false,
+      "tags": [
+        "Piracy",
+        "Games",
+        "Releases",
+        "DRM"
+      ],
+      "order": 80
+    },
+    {
+      "id": 1786792638649,
+      "name": "RuTor",
+      "url": "http://www.rutor.info/",
+      "description": "Russian torrent index and search site.",
+      "category": "Torrent Sites",
+      "favorite": false,
+      "tags": [
+        "Piracy",
+        "Torrent",
+        "Search Engine",
+        "Russian"
+      ],
+      "order": 81
+    },
+    {
+      "id": 1786792676632,
+      "name": "MacTorrents",
+      "url": "https://www.torrentmac.net/",
+      "description": "Torrent site focused on macOS software and related downloads.",
+      "category": "Torrent Sites",
+      "favorite": false,
+      "tags": [
+        "Piracy",
+        "Torrent",
+        "macOS",
+        "Software"
+      ],
+      "order": 82
+    },
+    {
+      "id": 1786792746745,
+      "name": "qBittorrent",
+      "url": "https://www.qbittorrent.org/download.php",
+      "description": "Free and open-source BitTorrent client for downloading and managing torrents.",
+      "category": "Torrent Software",
+      "favorite": false,
+      "tags": [
+        "Torrent",
+        "Software",
+        "Desktop Application",
+        "Open Source"
+      ],
+      "order": 83
+    },
+    {
+      "id": 1786792810615,
+      "name": "Transmission",
+      "url": "https://transmissionbt.com/download/",
+      "description": "Lightweight open-source BitTorrent client for Windows, macOS, Linux, and other platforms.",
+      "category": "Torrent Software",
+      "favorite": false,
+      "tags": [
+        "Torrent",
+        "Software",
+        "Desktop Application",
+        "macOS",
+        "Windows",
+        "Linux",
+        "Open Source"
+      ],
+      "order": 84
+    },
+    {
+      "id": 1786792810616,
+      "name": "DesktopHut",
+      "url": "https://www.desktophut.com/",
+      "description": "Free gallery of HD and 4K live wallpapers and animated backgrounds for desktop and mobile.",
+      "category": "Desktop Customization",
+      "favorite": false,
+      "tags": [
+        "Wallpapers",
+        "Live Wallpapers",
+        "Desktop",
+        "4K",
+        "Customization"
+      ],
+      "order": 85
+    },
+    {
+      "id": 1786792810617,
+      "name": "TheToolBus",
+      "url": "https://www.thetoolbus.ai/",
+      "description": "Collection of free browser-based tools for PDFs, images, converters, calculators, documents, and more.",
+      "category": "General Utilities",
+      "favorite": false,
+      "tags": [
+        "Tools",
+        "PDF",
+        "Images",
+        "Converter",
+        "Browser",
+        "AI"
+      ],
+      "order": 86
+    },
+    {
+      "id": 1786792810618,
+      "name": "ModsNation",
+      "url": "https://www.modsnation.com/",
+      "description": "Automotive customization platform with interactive 3D vehicle builds, aftermarket parts, and community content.",
+      "category": "Automotive",
+      "favorite": false,
+      "tags": [
+        "Cars",
+        "3D",
+        "Customization",
+        "Tuning",
+        "Aftermarket Parts"
+      ],
+      "order": 87
+    },
+    {
+      "id": 1786792810619,
+      "name": "Skill-Lync Roadmaps",
+      "url": "https://resources.skill-lync.com/?tab=roadmaps",
+      "description": "Engineering learning roadmaps and structured career-learning resources.",
+      "category": "Education",
+      "favorite": false,
+      "tags": [
+        "Education",
+        "Engineering",
+        "Roadmaps",
+        "Learning",
+        "Career"
+      ],
+      "order": 88
+    },
+    {
+      "id": 1786792810620,
+      "name": "Faces",
+      "url": "https://faces.app/",
+      "description": "Smart web-based presentation platform for creating modern, interactive slides.",
+      "category": "Tools",
+      "favorite": false,
+      "tags": [
+        "Presentations",
+        "Slides",
+        "Design",
+        "Web",
+        "AI"
+      ],
+      "order": 89
+    },
+    {
+      "id": 1786792810621,
+      "name": "ASCII Art",
+      "url": "https://www.asciiart.eu/",
+      "description": "Large categorized collection of text-based ASCII artwork.",
+      "category": "Web",
+      "favorite": false,
+      "tags": [
+        "ASCII",
+        "Art",
+        "Text",
+        "Creative",
+        "Reference"
+      ],
+      "order": 90
+    },
+    {
+      "id": 1786792810622,
+      "name": "Ninite",
+      "url": "https://ninite.com/",
+      "description": "Installs and updates multiple popular Windows applications at once without bundled extras.",
+      "category": "PC & Hardware",
+      "favorite": false,
+      "tags": [
+        "Windows",
+        "Software",
+        "Installer",
+        "Updater",
+        "Utilities"
+      ],
+      "order": 91
+    },
+    {
+      "id": 1786792810623,
+      "name": "Anime.js",
+      "url": "https://animejs.com/",
+      "description": "Fast and flexible JavaScript animation library for creating web animations.",
+      "category": "Web Development",
+      "favorite": false,
+      "tags": [
+        "JavaScript",
+        "Animation",
+        "Development",
+        "Frontend",
+        "Library"
+      ],
+      "order": 92
+    },
+    {
+      "id": 1786792810624,
+      "name": "CarCareKiosk",
+      "url": "https://www.carcarekiosk.com/",
+      "description": "Vehicle maintenance and repair guides with model-specific instructional videos.",
+      "category": "Repair & DIY",
+      "favorite": false,
+      "tags": [
+        "Automotive",
+        "Repair",
+        "Maintenance",
+        "Guides",
+        "Video"
+      ],
+      "order": 93
+    },
+    {
+      "id": 1786792810625,
+      "name": "3D Aim Trainer",
+      "url": "https://www.3daimtrainer.com/",
+      "description": "Browser-based aim trainer for practicing FPS mouse accuracy, tracking, flicking, and reaction skills.",
+      "category": "Gaming",
+      "favorite": false,
+      "tags": [
+        "Aim Trainer",
+        "FPS",
+        "Practice",
+        "Mouse",
+        "Gaming"
+      ],
+      "order": 94
+    },
+    {
+      "id": 1786792810626,
+      "name": "Blink",
+      "url": "https://blink.new/",
+      "description": "AI-assisted platform for quickly building and launching web applications.",
+      "category": "AI Tools",
+      "favorite": false,
+      "tags": [
+        "AI",
+        "Development",
+        "Web Apps",
+        "Coding",
+        "Generation"
+      ],
+      "order": 95
+    },
+    {
+      "id": 1786792810627,
+      "name": "Auto Catalog Archive",
+      "url": "https://autocatalogarchive.com/",
+      "description": "Archive of automotive brochures, catalogs, specifications, and promotional material.",
+      "category": "Automotive",
+      "favorite": false,
+      "tags": [
+        "Cars",
+        "Brochures",
+        "Catalogue",
+        "Archive",
+        "Specifications"
+      ],
+      "order": 96
+    },
+    {
+      "id": 1786792810628,
+      "name": "World Monitor",
+      "url": "https://www.worldmonitor.app/",
+      "description": "Interactive world-monitoring dashboard for exploring global events and geopolitical information on a map.",
+      "category": "Web",
+      "favorite": false,
+      "tags": [
+        "World",
+        "Map",
+        "Monitoring",
+        "Geopolitics",
+        "Dashboard"
+      ],
+      "order": 97
+    },
+    {
+      "id": 1786792810629,
+      "name": "Blueprint",
+      "url": "https://www.blueprint.io/",
+      "description": "Platform and resources for planning and managing digital workflows and projects.",
+      "category": "Tools",
+      "favorite": false,
+      "tags": [
+        "Productivity",
+        "Planning",
+        "Workflow",
+        "Projects"
+      ],
+      "order": 98
+    },
+    {
+      "id": 1786792810630,
+      "name": "Learn Anything",
+      "url": "https://learn-anything.xyz/",
+      "description": "Visual learning-path explorer for discovering what to learn and how topics connect.",
+      "category": "Education",
+      "favorite": false,
+      "tags": [
+        "Education",
+        "Learning",
+        "Roadmaps",
+        "Knowledge",
+        "Reference"
+      ],
+      "order": 99
+    },
+    {
+      "id": 1786792810631,
+      "name": "GPT Excel",
+      "url": "https://gptexcel.uk/",
+      "description": "AI-powered assistant for generating and explaining spreadsheet formulas and spreadsheet-related tasks.",
+      "category": "AI Tools",
+      "favorite": false,
+      "tags": [
+        "AI",
+        "Excel",
+        "Spreadsheets",
+        "Formulas",
+        "Productivity"
+      ],
+      "order": 100
+    },
+    {
+      "id": 1786792810632,
+      "name": "NVIDIA Broadcast",
+      "url": "https://www.nvidia.com/en-us/geforce/broadcasting/broadcast-app/",
+      "description": "AI-powered RTX app for microphone noise removal, voice enhancement, webcam effects, and streaming.",
+      "category": "Audio Tools",
+      "favorite": false,
+      "tags": [
+        "NVIDIA",
+        "RTX",
+        "AI",
+        "Audio",
+        "Microphone",
+        "Webcam",
+        "Streaming"
+      ],
+      "order": 101
+    },
+    {
+      "id": 1786792810633,
+      "name": "MapGenie",
+      "url": "https://mapgenie.io/",
+      "description": "Interactive maps for games with searchable locations, collectibles, quests, and progress tracking.",
+      "category": "Gaming",
+      "favorite": false,
+      "tags": [
+        "Games",
+        "Interactive Map",
+        "Collectibles",
+        "Guides",
+        "Tracking"
+      ],
+      "order": 102
+    },
+    {
+      "id": 1786792810634,
+      "name": "IsThereAnyDeal",
+      "url": "https://isthereanydeal.com/",
+      "description": "PC game price comparison and deal-tracking service across authorized digital stores.",
+      "category": "Keys shops",
+      "favorite": false,
+      "tags": [
+        "Games",
+        "Deals",
+        "Price Comparison",
+        "PC",
+        "Stores"
+      ],
+      "order": 103
+    },
+    {
+      "id": 1786792810635,
+      "name": "Eneba",
+      "url": "https://www.eneba.com/",
+      "description": "Online marketplace for digital game keys, gift cards, and gaming products.",
+      "category": "Keys shops",
+      "favorite": false,
+      "tags": [
+        "Games",
+        "Game Keys",
+        "Marketplace",
+        "Digital",
+        "Store"
+      ],
+      "order": 104
+    },
+    {
+      "id": 1786792810636,
+      "name": "AllKeyShop",
+      "url": "https://www.allkeyshop.com/",
+      "description": "Game-key price comparison site that compares offers from multiple online stores.",
+      "category": "Keys shops",
+      "favorite": false,
+      "tags": [
+        "Games",
+        "Game Keys",
+        "Price Comparison",
+        "Deals",
+        "Stores"
+      ],
+      "order": 105
+    },
+    {
+      "id": 1786792810637,
+      "name": "OpenUI",
+      "url": "https://theresanaiforthat.com/s/openui.fly.dev/",
+      "description": "AI-assisted UI generation tool for creating interface components from natural-language descriptions.",
+      "category": "AI Tools",
+      "favorite": false,
+      "tags": [
+        "AI",
+        "UI",
+        "Development",
+        "Frontend",
+        "Generation"
+      ],
+      "order": 106
+    },
+    {
+      "id": 1786792810638,
+      "name": "Uiverse",
+      "url": "https://uiverse.io/",
+      "description": "Community library of free open-source UI elements for HTML/CSS, Tailwind, React, and Figma.",
+      "category": "Web Development",
+      "favorite": false,
+      "tags": [
+        "UI",
+        "CSS",
+        "React",
+        "Tailwind",
+        "Components",
+        "Open Source"
+      ],
+      "order": 107
+    },
+    {
+      "id": 1786792810639,
+      "name": "AlterWare",
+      "url": "https://alterware.dev/",
+      "description": "Community project providing custom clients and services for supported Call of Duty titles.",
+      "category": "Call of Duty",
+      "favorite": false,
+      "tags": [
+        "Call of Duty",
+        "Client",
+        "Modding",
+        "Multiplayer",
+        "Gaming"
+      ],
+      "order": 108
+    },
+    {
+      "id": 1786792810640,
+      "name": "Spicetify",
+      "url": "https://spicetify.app/",
+      "description": "Customization tool for modifying the Spotify desktop client with themes, extensions, and apps.",
+      "category": "Desktop Customization",
+      "favorite": false,
+      "tags": [
+        "Spotify",
+        "Customization",
+        "Themes",
+        "Extensions",
+        "Desktop"
+      ],
+      "order": 109
+    },
+    {
+      "id": 1786792810641,
+      "name": "RealWorld Graphics",
+      "url": "https://www.rw-designer.com/",
+      "description": "Collection of cursor, icon, and graphics tools plus downloadable community-made cursor and icon sets.",
+      "category": "Desktop Customization",
+      "favorite": false,
+      "tags": [
+        "Cursors",
+        "Icons",
+        "Graphics",
+        "Customization",
+        "Tools"
+      ],
+      "order": 110
+    },
+    {
+      "id": 1786792810642,
+      "name": "Sweezy Cursors",
+      "url": "https://sweezy-cursors.com/",
+      "description": "Collection of custom cursor packs and browser cursor themes.",
+      "category": "Desktop Customization",
+      "favorite": false,
+      "tags": [
+        "Cursors",
+        "Customization",
+        "Themes",
+        "Browser"
+      ],
+      "order": 111
+    },
+    {
+      "id": 1786792810643,
+      "name": "VSThemes",
+      "url": "https://vsthemes.org/en/",
+      "description": "Library of desktop themes, skins, wallpapers, icons, and customization resources.",
+      "category": "Desktop Customization",
+      "favorite": false,
+      "tags": [
+        "Themes",
+        "Windows",
+        "Wallpapers",
+        "Icons",
+        "Customization"
+      ],
+      "order": 112
+    },
+    {
+      "id": 1786792810644,
+      "name": "Cursor.cc",
+      "url": "https://www.cursor.cc/",
+      "description": "Browser-based cursor editor and gallery for creating and sharing custom mouse cursors.",
+      "category": "Desktop Customization",
+      "favorite": false,
+      "tags": [
+        "Cursors",
+        "Editor",
+        "Pixel Art",
+        "Customization",
+        "Browser"
+      ],
+      "order": 113
+    },
+    {
+      "id": 1786814108337,
+      "name": "Gridzzly",
+      "url": "https://www.gridzzly.com/",
+      "description": "Gridzzly.com is a simple, user-friendly tool that allows you to create customizable grid paper online. Whether you need graph paper, dotted paper, lined paper, or even custom grids, the site lets you adjust the grid size, line thickness, etc..",
+      "category": "General Utilities",
+      "favorite": false,
+      "tags": [
+        "Printables",
+        "Utilities",
+        "Web Apps",
+        "Paper"
+      ],
+      "order": 114
+    },
+    {
+      "id": 1786821172588,
+      "name": "PlexTV",
+      "url": "https://watch.plex.tv/",
+      "description": "Plex is a media platform that lets you organise and stream your own movies, TV shows, music, and photos via a personal Plex Media Server, while also giving you access to free, ad-supported on-demand movies, shows, and live TV. It works across almost any device, smartphones, smart TVs, browsers, and can fetch metadata like artwork, cast info, and summaries automatically. While the core server and many features are free, a Plex Pass subscription unlocks extras like remote streaming, DVR recording, and hardware-accelerated transcoding.",
+      "category": "Streaming Discovery",
+      "favorite": false,
+      "tags": [
+        "streaming",
+        "tv",
+        "movies"
+      ],
+      "order": 115
+    },
+    {
+      "id": 1786821288454,
+      "name": "Jellyfin",
+      "url": "https://jellyfin.org/",
+      "description": "Jellyfin is a free, open-source media server system that gives you full control over managing and streaming your own movies, TV shows, music, photos, books and live-TV. You run the Jellyfin server on your hardware (PC, NAS, Docker, etc.) and then access your media through a variety of client apps (mobile, smart TVs, web) without any subscription, telemetry, or central servers.",
+      "category": "Tools",
+      "favorite": false,
+      "tags": [
+        "Home server",
+        "Hosting",
+        "Server",
+        "Utilities"
+      ],
+      "order": 116
+    },
+    {
+      "id": 1786874896934,
+      "name": "Incompetech Graph Paper",
+      "url": "https://incompetech.com/graphpaper/",
+      "description": "Download your own copy of this utility, and it works offline forever.",
+      "category": "General Utilities",
+      "favorite": false,
+      "tags": [
+        "Printables",
+        "Paper",
+        "Customization",
+        "Free",
+        "No Login"
+      ],
+      "order": 117
+    },
+    {
+      "id": 1786882457950,
+      "name": "Ofckicks.",
+      "url": "https://www.ofckick.com/",
+      "description": "Ofckicks is a trusted online store offering high-quality replica shoes, designer clothing, belts, and fashion accessories. At ofckicks, you can explore a wide selection of styles inspired by Gucci, Dior, Balenciaga, LV, and other luxury brands, crafted with attention to detail and comfort.",
+      "category": "Reps stores",
+      "favorite": false,
+      "tags": [
+        "shopping",
+        "shoes",
+        "reps",
+        "sneakers"
+      ],
+      "order": 118
+    },
+    {
+      "id": 1786882571551,
+      "name": "Flaticon",
+      "url": "https://www.flaticon.com/",
+      "description": "Download Free Icons and Stickers for your projects. Resources made by and for designers. PNG, SVG, EPS, PSD and CSS formats.",
+      "category": "Motion Graphics",
+      "favorite": false,
+      "tags": [
+        "design",
+        "creative",
+        "graphics",
+        "resources",
+        "downloads",
+        "files",
+        "Icons",
+        "UI",
+        "Development",
+        "Design",
+        "Animation"
+      ],
+      "order": 119
+    },
+    {
+      "id": 1786882668637,
+      "name": "SkipVids",
+      "url": "https://skipvids.com/",
+      "description": "A very usable and handy tool when you need to remove ads from videos and can only use your stock browser. Has the bare minimum you would need from a YouTube app plus some extras (like download button etc.)",
+      "category": "Streaming",
+      "favorite": false,
+      "tags": [
+        "YouTube",
+        "Streaming",
+        "Bloatless",
+        "No Login"
+      ],
+      "order": 120
+    },
+    {
+      "id": 1786882742301,
+      "name": "Huggingface - Spaces",
+      "url": "https://huggingface.co/spaces",
+      "description": "The AI App Directory of Huggingface.",
+      "category": "AI Tools",
+      "favorite": false,
+      "tags": [
+        "AI",
+        "Tools",
+        "No Login"
+      ],
+      "order": 121
+    },
+    {
+      "id": 1786914928170,
+      "name": "Freesewing",
+      "url": "https://freesewing.eu",
+      "description": "FreeSewing is open source software to generate bespoke sewing patterns, loved by home sewers and fashion entrepreneurs alike.",
+      "category": "Repair & DIY",
+      "favorite": false,
+      "tags": [
+        "Sewing",
+        "Free",
+        "Open Source",
+        "DIY"
+      ],
+      "order": 122
+    },
+    {
+      "id": 1787076897990,
+      "name": "Printables",
+      "url": "https://www.printables.com/",
+      "description": "Community site for 3D printer users. Discover thousands of great printable 3D models, download them for free and read interesting articles about 3D Printing.",
+      "category": "3D Printing",
+      "favorite": false,
+      "tags": [
+        "3D Printing",
+        "Models"
+      ],
+      "order": 123
+    },
+    {
+      "id": 1787077043241,
+      "name": "Maker World",
+      "url": "https://makerworld.com/en",
+      "description": "Leading 3D printing model community for designers and makers. Download thousands of 3D models and stl models for free, 3D Printable Jet Engine",
+      "category": "3D Printing",
+      "favorite": false,
+      "tags": [
+        "3D Printing",
+        "Models"
+      ],
+      "order": 124
+    },
+    {
+      "id": 1787077073203,
+      "name": "Thingiverse",
+      "url": "https://www.thingiverse.com/",
+      "description": "Download millions of 3D models and files for your 3D printer, laser cutter, or CNC. From custom parts to unique designs, you can find them on Thingiverse.",
+      "category": "3D Printing",
+      "favorite": false,
+      "tags": [
+        "3D Printing",
+        "Models"
+      ],
+      "order": 125
+    },
+    {
+      "id": 1787077107960,
+      "name": "Yeggi",
+      "url": "https://www.yeggi.com/",
+      "description": "9.84 million indexed printable 3D model files worldwide! We collect 3D models from all websites and communities for your 3D printer.",
+      "category": "3D Printing",
+      "favorite": false,
+      "tags": [
+        "3D Printing",
+        "Models"
+      ],
+      "order": 126
+    },
+    {
+      "id": 1787077541263,
+      "name": "GenP",
+      "url": "https://github.com/TheMythologist/GenP",
+      "description": "GenP is an Adobe Creative Cloud patcher tool. While it was banned and discontinued, the community has kept it alive in this open-source GitHub repository.",
+      "category": "Piracy",
+      "favorite": false,
+      "tags": [
+        "GenP",
+        "Adobe",
+        "Creative Cloud",
+        "Piracy"
+      ],
+      "order": 127
+    },
+    {
+      "id": 1787347247442,
+      "name": "Fontstruct",
+      "url": "https://fontstruct.com/",
+      "description": "FontStruct is an online font editor where you can create your own fonts from scratch. The user interface is easy to use while still giving you a lot of freedom. If you aren't feeling too creative, you can browse the gallery where thousands of people have submitted their font styles that they have created using FontStruct. Custom fonts are great for video games, films or any creative medium where you want to stand out and be unique.",
+      "category": "General Utilities",
+      "favorite": false,
+      "tags": [
+        "Font",
+        "Tools",
+        "Font Maker",
+        "Design",
+        "Utilities"
+      ],
+      "order": 128
+    },
+    {
+      "id": 1787347395298,
+      "name": "LM Studio",
+      "url": "https://lmstudio.ai/",
+      "description": "LM Studio offers an easy and user-friendly solution for running AI/LLM-based text-chatting models. Compatible with many popular LLMs, it operates entirely offline, ensuring your conversations remain private. While the software is still in its early stages, it already includes powerful features, such as enabling the AI to read and interact with your local documents, allowing for meaningful and context-aware discussions.",
+      "category": "AI Tools",
+      "favorite": false,
+      "tags": [
+        "AI",
+        "Tools",
+        "LLM",
+        "Local"
+      ],
+      "order": 129
+    },
+    {
+      "id": 1787586754433,
+      "name": "eRank",
+      "url": "https://erank.com/",
+      "description": "Find better keywords for your Etsy listings, see what's trending etc.",
+      "category": "Side Hustles",
+      "favorite": false,
+      "tags": [
+        "Etsy",
+        "Tools",
+        "Money Making",
+        "Sales",
+        "Algorythm"
+      ],
+      "order": 130
+    },
+    {
+      "id": 1789220794936,
+      "name": "Assetoo World",
+      "url": "https://www.assettoworld.com/",
+      "description": "Download and share mods for Assetto Corsa on pC.",
+      "category": "Asseto Corsa",
+      "tags": [
+        "Games",
+        "Cars",
+        "Gaming",
+        "Asseto Corsa",
+        "Content Manager",
+        "Mods"
+      ],
+      "favorite": false,
+      "order": 131
+    },
+    {
+      "id": 1789220868169,
+      "name": "Overtake.gg",
+      "url": "https://overtake.gg",
+      "description": "Download and share mods for Assetto Corsa for PC.",
+      "category": "Asseto Corsa",
+      "tags": [
+        "Cars",
+        "Games",
+        "Gaming",
+        "Asseto Corsa",
+        "Content Manager",
+        "Mods"
+      ],
+      "favorite": false,
+      "order": 132
+    },
+    {
+      "id": 1789220967868,
+      "name": "Content Manager",
+      "url": "https://acstuff.club/app/",
+      "description": "Alternative launcher for Assetto Corsa, also mod manager etc. PC only.",
+      "category": "Asseto Corsa",
+      "tags": [
+        "Games",
+        "Gaming",
+        "Asseto Corsa",
+        "Content Manager",
+        "Modding",
+        "Mods"
+      ],
+      "favorite": false,
+      "order": 133
+    },
+    {
+      "id": 1789221076519,
+      "name": "Sonarr.tv",
+      "url": "https://sonarr.tv/#download",
+      "description": "Streaming movies and TV shows free on windows.",
+      "category": "Streaming",
+      "tags": [
+        "Streaming",
+        "Movies",
+        "TV Shows",
+        "Piracy"
+      ],
+      "favorite": false,
+      "order": 134
+    },
+    {
+      "id": 1789221196785,
+      "name": "SmartTube",
+      "url": "https://github.com/yuliskov/SmartTube",
+      "description": "SmartTube is a free and open-source media client for Android TVs and TV boxes. It allows you to browse and play content from various public sources in a TV-optimized interface.",
+      "category": "Github Repos",
+      "tags": [
+        "Github",
+        "Repository",
+        "YouTube",
+        "Piracy",
+        "Free"
+      ],
+      "favorite": false,
+      "order": 135
+    }
+  ],
+  "categories": [
+    {
+      "name": "3D & CAD",
+      "icon": "Box",
+      "parent": "Tools",
+      "order": 0
+    },
+    {
+      "name": "3D Printing",
+      "icon": "Scale3d",
+      "parent": null,
+      "order": 1
+    },
+    {
+      "name": "AI Tools",
+      "icon": "Globe",
+      "parent": null,
+      "order": 2
+    },
+    {
+      "name": "Audio Discovery",
+      "icon": "Music",
+      "parent": "Audio Tools",
+      "order": 3
+    },
+    {
+      "name": "Audio Tools",
+      "icon": "Headphones",
+      "parent": null,
+      "order": 4
+    },
+    {
+      "name": "Automotive",
+      "icon": "Car",
+      "parent": "Repair & DIY",
+      "order": 5
+    },
+    {
+      "name": "Books & Reading",
+      "icon": "BookOpen",
+      "parent": null,
+      "order": 6
+    },
+    {
+      "name": "Browser extensions",
+      "icon": "Compass",
+      "parent": null,
+      "order": 7
+    },
+    {
+      "name": "Call of Duty",
+      "icon": "Crosshair",
+      "parent": "Gaming",
+      "order": 8
+    },
+    {
+      "name": "Coding",
+      "icon": "Terminal",
+      "parent": null,
+      "order": 9
+    },
+    {
+      "name": "Desktop Customization",
+      "icon": "Palette",
+      "parent": null,
+      "order": 10
+    },
+    {
+      "name": "Development",
+      "icon": "Blocks",
+      "parent": null,
+      "order": 11
+    },
+    {
+      "name": "Education",
+      "icon": "GraduationCap",
+      "parent": null,
+      "order": 12
+    },
+    {
+      "name": "Emulators",
+      "icon": "Gamepad",
+      "parent": null,
+      "order": 13
+    },
+    {
+      "name": "File Conversion",
+      "icon": "RefreshCw",
+      "parent": "Tools",
+      "order": 14
+    },
+    {
+      "name": "Game Modding",
+      "icon": "Puzzle",
+      "parent": "Gaming",
+      "order": 15
+    },
+    {
+      "name": "Gaming",
+      "icon": "Gamepad2",
+      "parent": null,
+      "order": 16
+    },
+    {
+      "name": "General Utilities",
+      "icon": "Wrench",
+      "parent": "Tools",
+      "order": 17
+    },
+    {
+      "name": "Image Editing",
+      "icon": "Image",
+      "parent": "Photo Tools",
+      "order": 18
+    },
+    {
+      "name": "Keys shops",
+      "icon": "KeyRound",
+      "parent": "Gaming",
+      "order": 19
+    },
+    {
+      "name": "Motion Graphics",
+      "icon": "Clapperboard",
+      "parent": "Video Tools",
+      "order": 20
+    },
+    {
+      "name": "PC & Hardware",
+      "icon": "MonitorCog",
+      "parent": "Tools",
+      "order": 21
+    },
+    {
+      "name": "PDF Tools",
+      "icon": "FileText",
+      "parent": "Tools",
+      "order": 22
+    },
+    {
+      "name": "Photo Tools",
+      "icon": "Camera",
+      "parent": null,
+      "order": 23
+    },
+    {
+      "name": "Piracy",
+      "icon": "Skull",
+      "parent": null,
+      "order": 24
+    },
+    {
+      "name": "Piracy subreddits",
+      "icon": "HatGlasses",
+      "parent": "Piracy",
+      "order": 25
+    },
+    {
+      "name": "Programming Education",
+      "icon": "GraduationCap",
+      "parent": "Coding",
+      "order": 26
+    },
+    {
+      "name": "Repair & DIY",
+      "icon": "Wrench",
+      "parent": null,
+      "order": 27
+    },
+    {
+      "name": "Reps stores",
+      "icon": "Ban",
+      "parent": "Shopping",
+      "order": 28
+    },
+    {
+      "name": "Shopping",
+      "icon": "ShoppingCart",
+      "parent": null,
+      "order": 29
+    },
+    {
+      "name": "Side Hustles",
+      "icon": "CircleDollarSign",
+      "parent": null,
+      "order": 30
+    },
+    {
+      "name": "Streaming",
+      "icon": "Tv",
+      "parent": null,
+      "order": 31
+    },
+    {
+      "name": "Streaming Discovery",
+      "icon": "Search",
+      "parent": "Streaming",
+      "order": 32
+    },
+    {
+      "name": "Tools",
+      "icon": "Wrench",
+      "parent": null,
+      "order": 33
+    },
+    {
+      "name": "Torrent Sites",
+      "icon": "ArrowBigDown",
+      "parent": "Piracy",
+      "order": 34
+    },
+    {
+      "name": "Torrent Software",
+      "icon": "CircleArrowDown",
+      "parent": "Piracy",
+      "order": 35
+    },
+    {
+      "name": "Uncategorized",
+      "icon": "Folder",
+      "parent": null,
+      "order": 36
+    },
+    {
+      "name": "Video Tools",
+      "icon": "Video",
+      "parent": null,
+      "order": 37
+    },
+    {
+      "name": "Web",
+      "icon": "Wifi",
+      "parent": null,
+      "order": 38
+    },
+    {
+      "name": "Web Development",
+      "icon": "Code2",
+      "parent": "Development",
+      "order": 39
+    },
+    {
+      "name": "Web Hosting",
+      "icon": "Server",
+      "parent": "Web",
+      "order": 40
+    },
+    {
+      "name": "Asseto Corsa",
+      "icon": "CarFront",
+      "parent": "Gaming",
+      "order": 41
+    },
+    {
+      "name": "Github Repos",
+      "icon": "SearchCode",
+      "parent": null,
+      "order": 42
+    }
+  ]
 }
