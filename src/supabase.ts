@@ -173,12 +173,32 @@ async function loadLibrary(force = false): Promise<LibraryData> {
   return cachedLibrary
 }
 
-async function saveLibrary(library: LibraryData, message = 'Update LinkVault library') {
-  if (!hasGitHubToken()) {
+async function ensureGitHubEditingAccess() {
+  if (hasGitHubToken()) return
+
+  const token = window.prompt(
+    'Editing LinkVault requires GitHub access on this device.\n\nPaste a fine-grained GitHub token for Mjc-g3/LINKVAULT with:\nRepository contents → Read and write\n\nThe token is stored only in this browser.',
+    '',
+  )
+
+  if (!token?.trim()) {
     throw new Error(
-      'GitHub sync is not configured on this device. Open the GitHub Sync section in the sidebar and connect a token first.',
+      'This device is currently read-only. Connect GitHub in the sidebar before editing.',
     )
   }
+
+  setGitHubToken(token)
+
+  try {
+    await testGitHubConnection()
+  } catch (error) {
+    clearGitHubToken()
+    throw error
+  }
+}
+
+async function saveLibrary(library: LibraryData, message = 'Update LinkVault library') {
+  await ensureGitHubEditingAccess()
 
   // Refresh the file SHA before committing if this is the first write in this session.
   if (!cachedSha) {
@@ -241,6 +261,7 @@ export async function testGitHubConnection() {
 }
 
 export async function syncCurrentLibraryToGitHub() {
+  await ensureGitHubEditingAccess()
   const library = await loadLibrary(false)
   await saveLibrary(
     library,
