@@ -5,6 +5,7 @@ import App from './App.tsx'
 import { initGitHubSyncUI } from './github-sync-ui'
 import { initStorageMessageFix } from './storage-message-fix'
 import { initAlphabeticalCategorySort } from './category-sort'
+import { initAlphabeticalWebsiteSort } from './alphabetical-website-sort'
 
 initStorageMessageFix()
 
@@ -16,3 +17,4 @@ createRoot(document.getElementById('root')!).render(
 
 initGitHubSyncUI()
 initAlphabeticalCategorySort()
+initAlphabeticalWebsiteSort()
