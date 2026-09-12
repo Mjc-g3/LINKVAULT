@@ -1,6 +1,6 @@
 const API_BASE = (
   import.meta.env.VITE_API_URL ||
-  'https://debian.tail924747.ts.net/api'
+  'https://debian.tail924747.ts.net:8443/api'
 ).replace(/\/$/, '')
 
 type TableName = 'websites' | 'categories'
