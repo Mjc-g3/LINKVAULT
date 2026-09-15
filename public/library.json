@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-15T19:12:59.972Z",
+  "updatedAt": "2026-09-15T19:14:18.547Z",
   "websites": [
     {
       "id": 1,
@@ -2148,6 +2148,23 @@
       ],
       "favorite": false,
       "order": 136
+    },
+    {
+      "id": 1789499657905,
+      "name": "SharpEmu",
+      "url": "https://github.com/sharpemu/sharpemu",
+      "description": "A Playstation 5 emulator for PC. Currently experimental.",
+      "category": "Emulators",
+      "tags": [
+        "PlayStation 5",
+        "Emulator",
+        "PS5",
+        "PlayStation",
+        "Games",
+        "Gaming"
+      ],
+      "favorite": false,
+      "order": 137
     }
   ],
   "categories": [
