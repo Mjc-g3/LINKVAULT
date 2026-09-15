@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-12T13:56:19.810Z",
+  "updatedAt": "2026-09-15T16:42:59.553Z",
   "websites": [
     {
       "id": 1,
@@ -2355,20 +2355,20 @@
       "order": 35
     },
     {
-      "name": "Uncategorized",
-      "icon": "Folder",
+      "name": "Video Tools",
+      "icon": "Video",
       "parent": null,
       "order": 36
     },
     {
-      "name": "Video Tools",
-      "icon": "Video",
+      "name": "Web",
+      "icon": "Wifi",
       "parent": null,
       "order": 37
     },
     {
-      "name": "Web",
-      "icon": "Wifi",
+      "name": "Uncategorized",
+      "icon": "Folder",
       "parent": null,
       "order": 38
     },
