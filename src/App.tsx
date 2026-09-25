@@ -1891,7 +1891,8 @@ return (
               <span className="home-eyebrow">YOUR SPACE ON THE WEB</span>
               <h1>Everything you need,<br /><span>one search away.</span></h1>
               <p>Search your saved sites, jump to a favorite, or explore your collections.</p>
-              <div className="home-search" ref={homeSearchContainerRef}>
+              <div ref={homeSearchContainerRef}>
+              <div className="home-search">
                 <Search size={21} aria-hidden="true" />
                 <input
                   ref={homeSearchRef}
@@ -1926,6 +1927,7 @@ return (
                   </a>
                 </div>
               )}
+              </div>
               <div className="home-search-hint">{websites.length} saved links · Press / to search</div>
             </div>
             <div className="home-sections">
