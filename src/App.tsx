@@ -675,6 +675,8 @@ const importBackupRef =
   )
   const mainScrollRef = useRef<HTMLElement | null>(null)
   const homeSearchRef = useRef<HTMLInputElement | null>(null)
+  const homeSearchContainerRef = useRef<HTMLDivElement | null>(null)
+  const [showHomeResults, setShowHomeResults] = useState(false)
   const [showBackToTop, setShowBackToTop] = useState(false)
   const [backgroundEffect, setBackgroundEffect] = useState<'galaxy' | 'waves'>(
     () =>
@@ -1549,6 +1551,7 @@ const activeSubcategories = activeRootCategory
 const selectCategory = (categoryName: string) => {
   setSelectedCategory(categoryName)
   setSearch('')
+  setShowHomeResults(false)
   setMobileNavigationOpen(false)
 }
 
@@ -1581,10 +1584,31 @@ useEffect(() => {
     if (selectedCategory !== 'Home') return
     event.preventDefault()
     homeSearchRef.current?.focus()
+    setShowHomeResults(true)
   }
   window.addEventListener('keydown', focusSearch)
   return () => window.removeEventListener('keydown', focusSearch)
 }, [selectedCategory])
+
+useEffect(() => {
+  const closeResults = (event: PointerEvent) => {
+    if (!homeSearchContainerRef.current?.contains(event.target as Node)) {
+      setShowHomeResults(false)
+    }
+  }
+  const closeOnEscape = (event: KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      setShowHomeResults(false)
+      homeSearchRef.current?.blur()
+    }
+  }
+  document.addEventListener('pointerdown', closeResults)
+  document.addEventListener('keydown', closeOnEscape)
+  return () => {
+    document.removeEventListener('pointerdown', closeResults)
+    document.removeEventListener('keydown', closeOnEscape)
+  }
+}, [])
 
 useEffect(() => {
   mainScrollRef.current?.scrollTo({
@@ -1867,13 +1891,17 @@ return (
               <span className="home-eyebrow">YOUR SPACE ON THE WEB</span>
               <h1>Everything you need,<br /><span>one search away.</span></h1>
               <p>Search your saved sites, jump to a favorite, or explore your collections.</p>
-              <div className="home-search">
+              <div className="home-search" ref={homeSearchContainerRef}>
                 <Search size={21} aria-hidden="true" />
                 <input
                   ref={homeSearchRef}
                   type="search"
                   value={search}
-                  onChange={(event) => setSearch(event.target.value)}
+                  onChange={(event) => {
+                    setSearch(event.target.value)
+                    setShowHomeResults(true)
+                  }}
+                  onFocus={() => setShowHomeResults(true)}
                   placeholder="Search your links..."
                   aria-label="Search saved websites"
                   autoComplete="off"
@@ -1884,7 +1912,7 @@ return (
                   </button>
                 )}
               </div>
-              {search.trim() && (
+              {search.trim() && showHomeResults && (
                 <div className="home-results" aria-live="polite">
                   {homeResults.length ? homeResults.map((site) => (
                     <a key={site.id} href={site.url} target="_blank" rel="noopener noreferrer" className="home-result">
