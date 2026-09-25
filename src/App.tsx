@@ -1891,7 +1891,7 @@ return (
               <span className="home-eyebrow">YOUR SPACE ON THE WEB</span>
               <h1>Everything you need,<br /><span>one search away.</span></h1>
               <p>Search your saved sites, jump to a favorite, or explore your collections.</p>
-              <div ref={homeSearchContainerRef}>
+              <div className="home-search-container" ref={homeSearchContainerRef}>
               <div className="home-search">
                 <Search size={21} aria-hidden="true" />
                 <input
@@ -1916,13 +1916,13 @@ return (
               {search.trim() && showHomeResults && (
                 <div className="home-results" aria-live="polite">
                   {homeResults.length ? homeResults.map((site) => (
-                    <a key={site.id} href={site.url} target="_blank" rel="noopener noreferrer" className="home-result">
+                    <a key={site.id} href={site.url} className="home-result">
                       <img src={`https://www.google.com/s2/favicons?domain=${site.url}&sz=64`} alt="" />
                       <span><strong>{site.name}</strong><small>{getWebsiteHostname(site.url) ?? site.category}</small></span>
                       <ExternalLink size={16} aria-hidden="true" />
                     </a>
                   )) : <p className="home-no-results">No saved links found. Try another search.</p>}
-                  <a className="home-web-search" href={`https://www.google.com/search?q=${encodeURIComponent(search.trim())}`} target="_blank" rel="noopener noreferrer">
+                  <a className="home-web-search" href={`https://www.google.com/search?q=${encodeURIComponent(search.trim())}`}>
                     Search the web for “{search.trim()}” <ExternalLink size={15} />
                   </a>
                 </div>
