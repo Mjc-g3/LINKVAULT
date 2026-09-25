@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-15T19:14:18.547Z",
+  "updatedAt": "2026-09-25T23:41:06.767Z",
   "websites": [
     {
       "id": 1,
@@ -2165,6 +2165,22 @@
       ],
       "favorite": false,
       "order": 137
+    },
+    {
+      "id": 1790379663916,
+      "name": "ChatGPT",
+      "url": "https://chatgpt.com/",
+      "description": "",
+      "category": "AI Tools",
+      "tags": [
+        "ai",
+        "tools",
+        "productivity",
+        "gpt",
+        "open ai"
+      ],
+      "favorite": false,
+      "order": 138
     }
   ],
   "categories": [
