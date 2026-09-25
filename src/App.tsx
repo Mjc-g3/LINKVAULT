@@ -18,6 +18,9 @@ import { supabase } from './supabase'
 
 import {
   Folder,
+  ArrowRight,
+  ExternalLink,
+  Search,
   MoreHorizontal,
   Plus,
   icons,
@@ -664,13 +667,14 @@ const importBackupRef =
 
   const [search, setSearch] = useState('')
   const [mobileNavigationOpen, setMobileNavigationOpen] = useState(false)
-  const [selectedCategory, setSelectedCategory] = useState('All')
+  const [selectedCategory, setSelectedCategory] = useState('Home')
   const [searchScope, setSearchScope] = useState<'all' | 'category'>(() =>
     window.localStorage.getItem('website-library-search-scope') === 'category'
       ? 'category'
       : 'all',
   )
   const mainScrollRef = useRef<HTMLElement | null>(null)
+  const homeSearchRef = useRef<HTMLInputElement | null>(null)
   const [showBackToTop, setShowBackToTop] = useState(false)
   const [backgroundEffect, setBackgroundEffect] = useState<'galaxy' | 'waves'>(
     () =>
@@ -777,6 +781,7 @@ const getCategoryAndChildren = (
     const isGlobalSearch = searchText.length > 0 && searchScope === 'all'
 
     const selectedCategoryNames =
+  selectedCategory === 'Home' ||
   selectedCategory === 'All' ||
   selectedCategory === 'Favorites'
     ? []
@@ -786,6 +791,7 @@ const getCategoryAndChildren = (
 
 const matchesCategory =
   isGlobalSearch ||
+  selectedCategory === 'Home' ||
   selectedCategory === 'All' ||
   selectedCategory === 'Favorites' ||
   selectedCategoryNames.includes(
@@ -1542,8 +1548,43 @@ const activeSubcategories = activeRootCategory
 
 const selectCategory = (categoryName: string) => {
   setSelectedCategory(categoryName)
+  setSearch('')
   setMobileNavigationOpen(false)
 }
+
+const homeResults = search.trim()
+  ? websites.filter((site) => {
+      const term = search.trim().toLowerCase()
+      return [site.name, site.url, site.description, site.category, ...site.tags]
+        .some((value) => value.toLowerCase().includes(term))
+    }).slice(0, 8)
+  : []
+const favoriteSites = [...websites]
+  .filter((site) => site.favorite)
+  .sort((a, b) => a.order - b.order)
+  .slice(0, 8)
+const homeCategories = rootCategories
+  .map((item) => ({
+    ...item,
+    count: websites.filter((site) =>
+      getCategoryAndChildren(item.name).includes(site.category),
+    ).length,
+  }))
+  .filter((item) => item.count > 0)
+  .slice(0, 8)
+
+useEffect(() => {
+  const focusSearch = (event: KeyboardEvent) => {
+    if (event.key !== '/' || event.ctrlKey || event.metaKey || event.altKey) return
+    const target = event.target as HTMLElement
+    if (target.closest('input, textarea, select, [contenteditable="true"]')) return
+    if (selectedCategory !== 'Home') return
+    event.preventDefault()
+    homeSearchRef.current?.focus()
+  }
+  window.addEventListener('keydown', focusSearch)
+  return () => window.removeEventListener('keydown', focusSearch)
+}, [selectedCategory])
 
 useEffect(() => {
   mainScrollRef.current?.scrollTo({
@@ -1637,6 +1678,12 @@ return (
       <div className="sidebar-content" id="sidebar-navigation">
 
         <nav className="nav">
+          <button
+            className={selectedCategory === 'Home' ? 'active' : ''}
+            onClick={() => selectCategory('Home')}
+          >
+            Home
+          </button>
           <button
             className={selectedCategory === 'All' ? 'active' : ''}
             onClick={() => selectCategory('All')}
@@ -1769,6 +1816,7 @@ return (
         }
       >
         <header className="topbar">
+          {selectedCategory !== 'Home' && (
           <BorderGlow
             className="search-glow"
             borderRadius={10}
@@ -1803,6 +1851,7 @@ return (
               </select>
             </div>
           </BorderGlow>
+          )}
 
           <button
             className="add-button"
@@ -1812,7 +1861,70 @@ return (
           </button>
         </header>
 
-        <section className="content">
+        {selectedCategory === 'Home' ? (
+          <section className="home-page" aria-label="LinkVault home">
+            <div className="home-hero">
+              <span className="home-eyebrow">YOUR SPACE ON THE WEB</span>
+              <h1>Everything you need,<br /><span>one search away.</span></h1>
+              <p>Search your saved sites, jump to a favorite, or explore your collections.</p>
+              <div className="home-search">
+                <Search size={21} aria-hidden="true" />
+                <input
+                  ref={homeSearchRef}
+                  type="search"
+                  value={search}
+                  onChange={(event) => setSearch(event.target.value)}
+                  placeholder="Search your links..."
+                  aria-label="Search saved websites"
+                  autoComplete="off"
+                />
+                {search.trim() && (
+                  <button type="button" onClick={() => { setSearchScope('all'); setSelectedCategory('All') }}>
+                    All results <ArrowRight size={17} />
+                  </button>
+                )}
+              </div>
+              {search.trim() && (
+                <div className="home-results" aria-live="polite">
+                  {homeResults.length ? homeResults.map((site) => (
+                    <a key={site.id} href={site.url} target="_blank" rel="noopener noreferrer" className="home-result">
+                      <img src={`https://www.google.com/s2/favicons?domain=${site.url}&sz=64`} alt="" />
+                      <span><strong>{site.name}</strong><small>{getWebsiteHostname(site.url) ?? site.category}</small></span>
+                      <ExternalLink size={16} aria-hidden="true" />
+                    </a>
+                  )) : <p className="home-no-results">No saved links found. Try another search.</p>}
+                  <a className="home-web-search" href={`https://www.google.com/search?q=${encodeURIComponent(search.trim())}`} target="_blank" rel="noopener noreferrer">
+                    Search the web for “{search.trim()}” <ExternalLink size={15} />
+                  </a>
+                </div>
+              )}
+              <div className="home-search-hint">{websites.length} saved links · Press / to search</div>
+            </div>
+            <div className="home-sections">
+              <section className="home-section">
+                <div className="home-section-title"><div><span>01 / QUICK ACCESS</span><h2>Favorites</h2></div><button onClick={() => selectCategory('Favorites')}>View all <ArrowRight size={16} /></button></div>
+                {favoriteSites.length ? (
+                  <div className="home-favorites">
+                    {favoriteSites.map((site) => (
+                      <a key={site.id} href={site.url} target="_blank" rel="noopener noreferrer" className="home-favorite">
+                        <img src={`https://www.google.com/s2/favicons?domain=${site.url}&sz=64`} alt="" />
+                        <strong>{site.name}</strong><small>{getWebsiteHostname(site.url)}</small>
+                      </a>
+                    ))}
+                  </div>
+                ) : <div className="home-placeholder">Star a link in your library to keep it here. <button onClick={() => selectCategory('All')}>Browse library <ArrowRight size={15} /></button></div>}
+              </section>
+              <section className="home-section">
+                <div className="home-section-title"><div><span>02 / EXPLORE</span><h2>Collections</h2></div><button onClick={() => selectCategory('All')}>Full library <ArrowRight size={16} /></button></div>
+                <div className="home-collections">
+                  {homeCategories.map((item) => (
+                    <button key={item.name} onClick={() => selectCategory(item.name)}><Folder size={19} /><span>{item.name}</span><small>{item.count}</small><ArrowRight size={16} /></button>
+                  ))}
+                </div>
+              </section>
+            </div>
+          </section>
+        ) : <section className="content">
           <div className="content-heading">
             <div>
               <h1>
@@ -1932,7 +2044,7 @@ return (
               </p>
             </div>
           )}
-        </section>
+        </section>}
 
         <button
           className={showBackToTop ? 'back-to-top visible' : 'back-to-top'}
