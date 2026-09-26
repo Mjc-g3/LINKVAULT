@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-25T23:41:12.096Z",
+  "updatedAt": "2026-09-26T09:25:31.330Z",
   "websites": [
     {
       "id": 1,
@@ -2181,6 +2181,21 @@
       ],
       "favorite": false,
       "order": 138
+    },
+    {
+      "id": 1790414730589,
+      "name": "KytyPS5",
+      "url": "https://kytyps5.github.io/",
+      "description": "",
+      "category": "Emulators",
+      "tags": [
+        "PlayStation 5",
+        "Emulation",
+        "Emulator",
+        "PS5"
+      ],
+      "favorite": false,
+      "order": 139
     }
   ],
   "categories": [
