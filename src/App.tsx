@@ -14,7 +14,24 @@ import ShinyText from './ShinyText'
 import BorderGlow from './BorderGlow'
 import GradientWaves from './GradientWaves'
 import Galaxy from './Galaxy'
-import { supabase, ensureEditingToken, saveLibraryData } from './supabase'
+import CommandPalette from './CommandPalette'
+import {
+  supabase,
+  clearGitHubToken,
+  ensureEditingToken,
+  hasGitHubToken,
+  saveLibraryData,
+  setGitHubToken,
+  testGitHubConnection,
+} from './supabase'
+import {
+  getWebsiteHostname,
+  parseQuery,
+  scoreWebsite,
+  tagQuery,
+  type Category,
+  type Website,
+} from './library'
 
 import {
   Folder,
@@ -23,6 +40,8 @@ import {
   Search,
   MoreHorizontal,
   Plus,
+  Lock,
+  Unlock,
   icons,
 } from 'lucide-react'
 
@@ -50,23 +69,6 @@ import {
 import { CSS } from '@dnd-kit/utilities'
 
 
-type Website = {
-  id: number
-  name: string
-  url: string
-  description: string
-  category: string
-  tags: string[]
-  favorite: boolean
-  order: number
-}
-
-type Category = {
-  name: string
-  icon: string
-  parent: string | null
-}
-
 type SortMode = 'name' | 'added' | 'manual'
 
 type SyncStatus = 'idle' | 'pending' | 'saving' | 'saved' | 'error'
@@ -78,23 +80,6 @@ const nameCollator = new Intl.Collator('nb', {
   sensitivity: 'base',
   numeric: true,
 })
-
-const getWebsiteHostname = (value: string) => {
-  const trimmed = value.trim()
-  if (!trimmed) return null
-
-  try {
-    const normalized = /^https?:\/\//i.test(trimmed)
-      ? trimmed
-      : `https://${trimmed}`
-
-    return new URL(normalized).hostname
-      .toLowerCase()
-      .replace(/^www\./, '')
-  } catch {
-    return null
-  }
-}
 
 type ClassificationRule = {
   keywords: string[]
@@ -218,6 +203,9 @@ type SortableWebsiteCardProps = {
   menuRef: RefObject<HTMLDivElement | null>
   animateGlow: boolean
   draggable: boolean
+  canEdit: boolean
+  onTagClick: (tag: string) => void
+  onCategoryClick: (category: string) => void
 }
 
 function SortableWebsiteCard({
@@ -230,6 +218,9 @@ function SortableWebsiteCard({
   menuRef,
   animateGlow,
   draggable,
+  canEdit,
+  onTagClick,
+  onCategoryClick,
 }: SortableWebsiteCardProps) {
   const [descriptionExpanded, setDescriptionExpanded] = useState(false)
   const [descriptionOverflows, setDescriptionOverflows] = useState(false)
@@ -321,6 +312,7 @@ const {
           alt=""
         />
 
+        {canEdit && (
         <div className="card-controls">
           <button
             className="favorite-button"
@@ -397,6 +389,7 @@ const {
             )}
           </div>
         </div>
+        )}
       </div>
 
       <h2>{site.name}</h2>
@@ -426,12 +419,31 @@ const {
       )}
 
       <div className="badges">
-        <span className="category-badge">{site.category}</span>
+        <button
+          type="button"
+          className="category-badge"
+          title={`Open ${site.category}`}
+          onClick={(event) => {
+            event.stopPropagation()
+            onCategoryClick(site.category)
+          }}
+        >
+          {site.category}
+        </button>
 
         {visibleTags.map((tag) => (
-          <span className="tag-badge" key={tag}>
+          <button
+            type="button"
+            className="tag-badge"
+            key={tag}
+            title={`Show all links tagged #${tag}`}
+            onClick={(event) => {
+              event.stopPropagation()
+              onTagClick(tag)
+            }}
+          >
             #{tag}
-          </span>
+          </button>
         ))}
 
         {hiddenTagCount > 0 && (
@@ -459,6 +471,7 @@ type CategoryRowProps = {
   renameCategory: (category: string) => void
   deleteCategory: (category: string) => void
   categoryMenuRef: RefObject<HTMLDivElement | null>
+  canEdit: boolean
 }
 
 function CategoryRow({
@@ -470,6 +483,7 @@ function CategoryRow({
   renameCategory,
   deleteCategory,
   categoryMenuRef,
+  canEdit,
 }: CategoryRowProps) {
   return (
     <div className="category-row">
@@ -499,6 +513,7 @@ function CategoryRow({
   })()}
 </button>
 
+      {canEdit && (
       <div
         className="category-menu-wrapper"
         ref={
@@ -542,6 +557,7 @@ function CategoryRow({
   </div>
 )}
       </div>
+      )}
     </div>
   )
 }
@@ -562,6 +578,8 @@ function App() {
 
   const [categories, setCategories] = useState<Category[]>([])
   const [libraryLoaded, setLibraryLoaded] = useState(false)
+  const [canEdit, setCanEdit] = useState(hasGitHubToken)
+  const [paletteOpen, setPaletteOpen] = useState(false)
 
   const categoryRows = (items: Category[]) =>
     items.map((item, index) => ({
@@ -632,6 +650,7 @@ function App() {
   ) => {
     try {
       await ensureEditingToken()
+      setCanEdit(true)
     } catch (error) {
       alert(error instanceof Error ? error.message : 'GitHub editing is not connected.')
       return false
@@ -645,6 +664,42 @@ function App() {
     }
     scheduleSync()
     return true
+  }
+
+  // Visitors get a read-only library; a token unlocks editing on this device.
+  const unlockEditing = async () => {
+    const token = window.prompt(
+      'Paste a GitHub fine-grained personal access token for this repository.\n\nRequired permission: Repository contents — Read and write.\n\nThe token is stored only in this browser on this device.',
+      '',
+    )
+
+    if (!token?.trim()) return
+
+    try {
+      setGitHubToken(token)
+      await testGitHubConnection()
+      setCanEdit(true)
+    } catch (error) {
+      console.error(error)
+      clearGitHubToken()
+      alert(error instanceof Error ? error.message : 'GitHub editing could not be unlocked.')
+    }
+  }
+
+  const lockEditing = () => {
+    if (pendingLibraryRef.current || syncingRef.current) {
+      alert('Wait for your changes to finish saving before locking editing.')
+      return
+    }
+
+    if (!window.confirm('Remove the GitHub editing token from this device? Your library on GitHub is not affected.')) {
+      return
+    }
+
+    clearGitHubToken()
+    setCanEdit(false)
+    setOpenMenuId(null)
+    setOpenCategoryMenu(null)
   }
 
   useEffect(() => {
@@ -833,46 +888,46 @@ const getCategoryAndChildren = (
   return names
 }
 
-  const filteredWebsites = websites.filter((site) => {
-    const searchText = search.toLowerCase().trim()
-    const isGlobalSearch = searchText.length > 0 && searchScope === 'all'
-
-    const selectedCategoryNames =
-  selectedCategory === 'Home' ||
-  selectedCategory === 'All' ||
-  selectedCategory === 'Favorites'
-    ? []
-    : getCategoryAndChildren(
-        selectedCategory,
-      )
-
-const matchesCategory =
-  isGlobalSearch ||
-  selectedCategory === 'Home' ||
-  selectedCategory === 'All' ||
-  selectedCategory === 'Favorites' ||
-  selectedCategoryNames.includes(
-    site.category,
+  const knownTags = new Set(
+    websites.flatMap((site) => site.tags.map((tag) => tag.toLowerCase())),
   )
+  const parsedSearch = parseQuery(search, knownTags)
+  const isGlobalSearch = search.trim().length > 0 && searchScope === 'all'
+  const searchScores = new Map<number, number>()
+
+  const selectedCategoryNames =
+    selectedCategory === 'Home' ||
+    selectedCategory === 'All' ||
+    selectedCategory === 'Favorites'
+      ? null
+      : getCategoryAndChildren(selectedCategory)
+
+  const filteredWebsites = websites.filter((site) => {
+    const matchesCategory =
+      isGlobalSearch ||
+      selectedCategoryNames === null ||
+      selectedCategoryNames.includes(site.category)
 
     const matchesFavorite =
       isGlobalSearch || selectedCategory !== 'Favorites' || site.favorite
 
-    const matchesSearch =
-      !searchText ||
-      site.name.toLowerCase().includes(searchText) ||
-      site.description.toLowerCase().includes(searchText) ||
-      site.url.toLowerCase().includes(searchText) ||
-      site.category.toLowerCase().includes(searchText) ||
-      site.tags.some((tag) => tag.toLowerCase().includes(searchText))
+    if (!matchesCategory || !matchesFavorite) return false
 
-    return matchesCategory && matchesFavorite && matchesSearch
-}).sort((a, b) => {
-  if (sortMode === 'name') return nameCollator.compare(a.name, b.name)
-  // Ids are creation timestamps, so a higher id is a newer link.
-  if (sortMode === 'added') return b.id - a.id
-  return a.order - b.order
-})
+    const score = scoreWebsite(site, parsedSearch, categories)
+    searchScores.set(site.id, score)
+    return score > 0
+  }).sort((a, b) => {
+    // Typed words rank by relevance; filters alone keep the chosen sort.
+    if (parsedSearch.words.length > 0) {
+      const byScore = (searchScores.get(b.id) ?? 0) - (searchScores.get(a.id) ?? 0)
+      if (byScore !== 0) return byScore
+    }
+
+    if (sortMode === 'name') return nameCollator.compare(a.name, b.name)
+    // Ids are creation timestamps, so a higher id is a newer link.
+    if (sortMode === 'added') return b.id - a.id
+    return a.order - b.order
+  })
 
 const usedTags = Array.from(
   new Set(
@@ -1541,12 +1596,22 @@ const selectCategory = (categoryName: string) => {
   setMobileNavigationOpen(false)
 }
 
+const showTag = (tag: string) => {
+  setSelectedCategory('All')
+  setSearchScope('all')
+  setSearch(tagQuery(tag))
+  setShowHomeResults(false)
+  setMobileNavigationOpen(false)
+  mainScrollRef.current?.scrollTo({ top: 0, behavior: 'auto' })
+}
+
 const homeResults = search.trim()
-  ? websites.filter((site) => {
-      const term = search.trim().toLowerCase()
-      return [site.name, site.url, site.description, site.category, ...site.tags]
-        .some((value) => value.toLowerCase().includes(term))
-    }).slice(0, 8)
+  ? websites
+      .map((site) => ({ site, score: scoreWebsite(site, parsedSearch, categories) }))
+      .filter((item) => item.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 8)
+      .map(({ site }) => site)
   : []
 const favoriteSites = [...websites]
   .filter((site) => site.favorite)
@@ -1563,18 +1628,31 @@ const homeCategories = rootCategories
   .slice(0, 8)
 
 useEffect(() => {
-  const focusSearch = (event: KeyboardEvent) => {
-    if (event.key !== '/' || event.ctrlKey || event.metaKey || event.altKey) return
+  // Ctrl/Cmd+K opens the search palette from anywhere; "/" does too
+  // unless you are typing in a field.
+  const openPalette = (event: KeyboardEvent) => {
+    const isShortcut =
+      event.key.toLowerCase() === 'k' && (event.ctrlKey || event.metaKey) && !event.altKey
+    const isSlash =
+      event.key === '/' && !event.ctrlKey && !event.metaKey && !event.altKey
+
+    if (!isShortcut && !isSlash) return
+
     const target = event.target as HTMLElement
-    if (target.closest('input, textarea, select, [contenteditable="true"]')) return
-    if (selectedCategory !== 'Home') return
+    if (
+      isSlash &&
+      target.closest('input, textarea, select, [contenteditable="true"]')
+    ) {
+      return
+    }
+
     event.preventDefault()
-    homeSearchRef.current?.focus()
-    setShowHomeResults(true)
+    setShowHomeResults(false)
+    setPaletteOpen(true)
   }
-  window.addEventListener('keydown', focusSearch)
-  return () => window.removeEventListener('keydown', focusSearch)
-}, [selectedCategory])
+  window.addEventListener('keydown', openPalette)
+  return () => window.removeEventListener('keydown', openPalette)
+}, [])
 
 useEffect(() => {
   const closeResults = (event: PointerEvent) => {
@@ -1719,6 +1797,7 @@ return (
   <div className="sidebar-section-heading">
     <p>Categories</p>
 
+    {canEdit && (
     <div className="category-heading-actions">
       <button
         className="category-heading-button add-category-button"
@@ -1730,6 +1809,7 @@ return (
         <Plus size={17} strokeWidth={2} aria-hidden="true" />
       </button>
     </div>
+    )}
   </div>
 
   <div className="category-list">
@@ -1747,6 +1827,7 @@ return (
           renameCategory={renameCategory}
           deleteCategory={deleteCategory}
           categoryMenuRef={categoryMenuRef}
+          canEdit={canEdit}
         />
       </div>
     ))}
@@ -1766,6 +1847,7 @@ return (
     Export Backup
   </button>
 
+  {canEdit && (
   <button
     className="backup-button"
     onClick={() =>
@@ -1774,6 +1856,7 @@ return (
   >
     Import Backup
   </button>
+  )}
 
   <input
     ref={importBackupRef}
@@ -1802,6 +1885,26 @@ return (
   </div>
 </div>
 
+<div className={canEdit ? 'editing-section unlocked' : 'editing-section'}>
+  <p className="backup-heading">Editing</p>
+  <p className="editing-status">
+    <span className="editing-status-dot" aria-hidden="true" />
+    {canEdit ? 'Unlocked on this device' : 'Read-only'}
+  </p>
+
+  {canEdit ? (
+    <button className="backup-button" onClick={lockEditing}>
+      <Lock size={14} aria-hidden="true" />
+      Lock editing on this device
+    </button>
+  ) : (
+    <button className="backup-button" onClick={() => void unlockEditing()}>
+      <Unlock size={14} aria-hidden="true" />
+      Unlock editing
+    </button>
+  )}
+</div>
+
       </div>
     </aside>
 
@@ -1825,8 +1928,8 @@ return (
           >
             <div className="search-field">
               <input
-                type="text"
-                placeholder="Search websites, tags, categories..."
+                type="search"
+                placeholder="Search… try #tag, in:category, is:fav"
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
               />
@@ -1871,12 +1974,14 @@ return (
             </div>
           )}
 
+          {canEdit && (
           <button
             className="add-button"
             onClick={openAddModal}
           >
             + Add Website
           </button>
+          )}
         </header>
 
         {selectedCategory === 'Home' ? (
@@ -1922,7 +2027,7 @@ return (
                 </div>
               )}
               </div>
-              <div className="home-search-hint">{websites.length} saved links · Press / to search</div>
+              <div className="home-search-hint">{websites.length} saved links · Press <kbd>/</kbd> or <kbd>Ctrl</kbd> <kbd>K</kbd> to search anywhere</div>
             </div>
             <div className="home-sections">
               <section className="home-section">
@@ -1977,7 +2082,7 @@ return (
               <option value="manual">Manual order</option>
             </select>
 
-            {selectedCategoryItem?.parent && (
+            {canEdit && selectedCategoryItem?.parent && (
               <div
                 className="selected-category-menu-wrapper"
                 ref={openCategoryMenu === selectedCategory ? categoryMenuRef : null}
@@ -2067,7 +2172,10 @@ return (
             selectedCategory === 'Favorites' &&
             !(search.trim() && searchScope === 'all')
           }
-          draggable={sortMode === 'manual'}
+          draggable={canEdit && sortMode === 'manual'}
+          canEdit={canEdit}
+          onTagClick={showTag}
+          onCategoryClick={selectCategory}
         />
       ))}
     </div>
@@ -2098,6 +2206,15 @@ return (
           </svg>
         </button>
       </main>
+
+      {paletteOpen && (
+        <CommandPalette
+          websites={websites}
+          categories={categories}
+          onClose={() => setPaletteOpen(false)}
+          onSelectCategory={selectCategory}
+        />
+      )}
 
       {showModal && (
         <div

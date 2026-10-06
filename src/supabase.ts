@@ -47,8 +47,8 @@ export const clearGitHubToken = () => {
   cachedSha = null
 }
 
-const githubHeaders = (includeJson = false): HeadersInit => {
-  const token = getToken()
+const githubHeaders = (includeJson = false, includeAuth = true): HeadersInit => {
+  const token = includeAuth ? getToken() : ''
   return {
     Accept: 'application/vnd.github+json',
     'X-GitHub-Api-Version': '2022-11-28',
@@ -84,7 +84,12 @@ const normalizeLibrary = (value: unknown): LibraryData => {
 }
 
 async function fetchGitHubLibrary(): Promise<LibraryData> {
-  const response = await fetch(githubContentsUrl(), { headers: githubHeaders(), cache: 'no-store' })
+  let response = await fetch(githubContentsUrl(), { headers: githubHeaders(), cache: 'no-store' })
+  // An expired or wrong token must not hide the public library, so retry
+  // the read anonymously. Saving still reports the token problem.
+  if (response.status === 401 && hasGitHubToken()) {
+    response = await fetch(githubContentsUrl(), { headers: githubHeaders(false, false), cache: 'no-store' })
+  }
   if (response.status === 404) { cachedSha = null; return emptyLibrary() }
   if (!response.ok) throw new Error(`GitHub library request failed: ${response.status} ${response.statusText}`)
   const file = (await response.json()) as GitHubFileResponse

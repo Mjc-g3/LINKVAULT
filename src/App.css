@@ -597,6 +597,27 @@ body {
   color: #808792;
 }
 
+button.category-badge,
+button.tag-badge {
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+button.category-badge {
+  border: 1px solid transparent;
+}
+
+button.category-badge:hover,
+button.tag-badge:hover {
+  border-color: #6268a5;
+  background: rgba(69, 77, 145, 0.34);
+  color: white;
+}
+
 .card-actions {
   display: flex;
   align-items: center;
@@ -1394,6 +1415,52 @@ body {
   margin-top: 16px;
   padding: 16px 10px 0;
   border-top: 1px solid #20232a;
+}
+
+.editing-section {
+  margin-top: 16px;
+  padding: 16px 10px 0;
+  border-top: 1px solid #20232a;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.editing-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 4px;
+  color: #9198a3;
+  font-size: 12px;
+}
+
+.editing-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #666879;
+}
+
+.editing-section.unlocked .editing-status-dot {
+  background: #55d68a;
+  box-shadow: 0 0 10px rgba(85, 214, 138, 0.45);
+}
+
+.sidebar .editing-section .backup-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.home-search-hint kbd {
+  padding: 1px 6px;
+  border: 1px solid #3a3b4c;
+  border-radius: 5px;
+  background: #232432;
+  color: #b4b6c4;
+  font: inherit;
+  font-size: 11px;
 }
 
 .background-options {
