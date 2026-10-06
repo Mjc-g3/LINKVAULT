@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-06T20:19:12.450Z",
+  "updatedAt": "2026-10-06T20:20:00.161Z",
   "websites": [
     {
       "id": 1,
@@ -2276,6 +2276,16 @@
       ],
       "favorite": false,
       "order": 145
+    },
+    {
+      "id": 1791317997544,
+      "name": "test",
+      "url": "https://test.test",
+      "description": "",
+      "category": "Uncategorized",
+      "tags": [],
+      "favorite": false,
+      "order": 146
     }
   ],
   "categories": [
