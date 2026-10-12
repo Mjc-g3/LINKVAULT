@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-12T16:57:52.047Z",
+  "updatedAt": "2026-10-12T16:58:43.952Z",
   "websites": [
     {
       "id": 1,
@@ -2291,6 +2291,19 @@
       ],
       "favorite": false,
       "order": 146
+    },
+    {
+      "id": 1791824321164,
+      "name": "ArtCraft",
+      "url": "https://getartcraft.com/apps",
+      "description": "",
+      "category": "Software",
+      "tags": [
+        "Adobe",
+        "Free"
+      ],
+      "favorite": false,
+      "order": 147
     }
   ],
   "categories": [
