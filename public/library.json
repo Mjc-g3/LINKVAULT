@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-12T16:58:43.952Z",
+  "updatedAt": "2026-10-17T20:15:04.006Z",
   "websites": [
     {
       "id": 1,
@@ -2304,6 +2304,18 @@
       ],
       "favorite": false,
       "order": 147
+    },
+    {
+      "id": 1792268100617,
+      "name": "Downloadpirate",
+      "url": "https://www.downloadpirate.com/",
+      "description": "",
+      "category": "Piracy",
+      "tags": [
+        "Piracy"
+      ],
+      "favorite": false,
+      "order": 148
     }
   ],
   "categories": [
